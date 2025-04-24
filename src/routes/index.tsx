@@ -7,6 +7,7 @@ import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import ResetPasswordPage from "../pages/auth/ResetPasswordPage";
 import HomePage from "../pages/HomePage";
+import { authCheckLoader } from "./loaders/authLoader";
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+        loader: authCheckLoader,
       },
     ],
   },
@@ -38,6 +40,7 @@ export const router = createBrowserRouter([
       {
         path: "reset-password",
         element: <ResetPasswordPage />,
+        loader: authCheckLoader,
       },
       {
         path: "verify-email",
