@@ -1,5 +1,14 @@
+import { format } from "date-fns";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import {
+  Link,
+  useActionData,
+  useNavigate,
+  useNavigation,
+  useSubmit,
+} from "react-router";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { registerSchema } from "@/types/schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderCircle } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -29,6 +39,11 @@ export function RegisterForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const submit = useSubmit();
+  const navigator = useNavigation();
+  const navigate = useNavigate();
+  const isSubmitting = navigator.state === "submitting";
+  const actionData = useActionData();
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -40,8 +55,30 @@ export function RegisterForm({
     },
   });
 
+  const date = new Date();
+  const formattedDate = format(date, "EEEE, MMMM dd, yyyy 'at' h:mm a");
+
+  useEffect(() => {
+    if (!actionData) return;
+    if (actionData?.success) {
+      toast(actionData?.message, {
+        description: formattedDate,
+        action: {
+          label: "Open Gmail",
+          onClick() {
+            window.open("https://mail.google.com", "_blank");
+          },
+        },
+      });
+      navigate("/auth/login");
+    } else {
+      toast.error(actionData?.message);
+    }
+  }, [actionData, navigate, formattedDate]);
+
   const onSubmit = (values: z.infer<typeof registerSchema>) => {
-    console.log(values);
+    if (values.secret) values.role = "admin";
+    submit(values, { method: "POST", action: "." });
   };
 
   return (
@@ -63,7 +100,12 @@ export function RegisterForm({
                   <FormItem>
                     <FormLabel>Username</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="JohnDoe" {...field} />
+                      <Input
+                        type="text"
+                        placeholder="JohnDoe"
+                        {...field}
+                        disabled={isSubmitting}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -80,6 +122,7 @@ export function RegisterForm({
                         type="email"
                         placeholder="foe@example.com..."
                         {...field}
+                        disabled={isSubmitting}
                       />
                     </FormControl>
                     <FormMessage />
@@ -93,7 +136,11 @@ export function RegisterForm({
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <PasswordInput {...field} placeholder="*********" />
+                      <PasswordInput
+                        {...field}
+                        placeholder="*********"
+                        disabled={isSubmitting}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -109,8 +156,15 @@ export function RegisterForm({
                 </Link>
               </div>
               <div className=" space-y-3">
-                <Button type="submit" className="w-full cursor-pointer">
-                  Sign up
+                <Button
+                  type="submit"
+                  className="w-full cursor-pointer disabled:cursor-not-allowed"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting && (
+                    <LoaderCircle className="animate-spin" aria-hidden="true" />
+                  )}
+                  {isSubmitting ? "Signing Up..." : "Sign Up"}
                 </Button>
                 <Button variant="outline" className="w-full cursor-pointer">
                   Login with Google

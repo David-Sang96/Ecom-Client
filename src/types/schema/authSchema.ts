@@ -18,13 +18,15 @@ export const registerSchema = z.object({
     )
     .min(8, "Password must be at least 8 characters")
     .max(15, "Password is too long"),
-  role: z.string().trim(),
+  role: z.string().trim().optional(),
   secret: z
     .string()
     .trim()
-    .regex(/^[a-zA-Z0-9]+$/, {
-      message: "Secret can only contain letters and numbers",
-    }),
+    .optional()
+    .refine(
+      (val) => !val || /^[a-zA-Z0-9]+$/.test(val),
+      "Secret can only contain letters and numbers"
+    ),
 });
 
 export const loginSchema = z.object({

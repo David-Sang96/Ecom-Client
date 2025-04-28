@@ -1,4 +1,5 @@
-import { LayoutDashboard, LogOut, Settings, UserRound } from "lucide-react";
+import { LayoutDashboard, Settings, UserRound } from "lucide-react";
+import LogoutBtn from "../auth/LogoutBtn";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -14,7 +15,7 @@ import {
 export function DropDownNav() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className="cursor-pointer">
         <Avatar className="size-9">
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
@@ -24,19 +25,19 @@ export function DropDownNav() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
             Profile
             <DropdownMenuShortcut>
               <UserRound aria-hidden="true" />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
             Settings
             <DropdownMenuShortcut>
               <LayoutDashboard aria-hidden="true" />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
             Dashboard
             <DropdownMenuShortcut>
               <Settings aria-hidden="true" />
@@ -44,11 +45,8 @@ export function DropDownNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Log out
-          <DropdownMenuShortcut>
-            <LogOut aria-hidden="true" />
-          </DropdownMenuShortcut>
+        <DropdownMenuItem asChild>
+          <LogoutBtn />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

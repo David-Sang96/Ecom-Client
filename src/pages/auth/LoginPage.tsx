@@ -2,7 +2,7 @@ import { LoginForm } from "@/components/auth/LoginForm";
 
 const LoginPage = () => {
   return (
-    <section>
+    <section className="p-2 pt-20">
       <LoginForm />
     </section>
   );

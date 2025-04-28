@@ -1,5 +1,17 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { LoaderCircle } from "lucide-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import {
+  Link,
+  useActionData,
+  useNavigate,
+  useNavigation,
+  useSearchParams,
+  useSubmit,
+} from "react-router";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -13,7 +25,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { loginSchema } from "@/types/schema/authSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -28,6 +39,13 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const submit = useSubmit();
+  const actionData = useActionData();
+  const navigator = useNavigation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const isSubmitting = navigator.state === "submitting";
+  const redirectTo = searchParams.get("redirectTo") || "/";
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -36,8 +54,38 @@ export function LoginForm({
     },
   });
 
+  const date = new Date();
+  const formattedDate = format(date, "EEEE, MMMM dd, yyyy 'at' h:mm a");
+
+  useEffect(() => {
+    if (!actionData) return;
+    if (actionData.success) {
+      toast.success(actionData.message);
+      navigate(decodeURIComponent(redirectTo), {
+        replace: true,
+      });
+    } else {
+      if (actionData.message?.includes("verify")) {
+        toast.error(actionData.message, {
+          description: formattedDate,
+          action: {
+            label: "Open Gmail",
+            onClick() {
+              window.open("https://mail.google.com", "_blank");
+            },
+          },
+        });
+      } else {
+        toast.error(actionData.message);
+      }
+    }
+  }, [actionData, navigate, formattedDate, redirectTo]);
+
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    console.log(values);
+    submit(values, {
+      method: "POST",
+      action: `/auth/login?redirectTo=${encodeURIComponent(redirectTo)}`,
+    });
   };
 
   return (
@@ -92,8 +140,15 @@ export function LoginForm({
               />
 
               <div className=" space-y-3">
-                <Button type="submit" className="w-full cursor-pointer">
-                  Log In
+                <Button
+                  type="submit"
+                  className="w-full cursor-pointer disabled:cursor-not-allowed"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting && (
+                    <LoaderCircle className="animate-spin" aria-hidden="true" />
+                  )}
+                  {isSubmitting ? "Logging in" : "Log in"}
                 </Button>
                 <Button variant="outline" className="w-full cursor-pointer">
                   Login with Google

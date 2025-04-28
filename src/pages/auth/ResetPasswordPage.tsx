@@ -1,5 +1,5 @@
 const ResetPasswordPage = () => {
-  return <div>ResetPasswordPage</div>;
+  return <section className="p-2 pt-20">ResetPasswordPage</section>;
 };
 
 export default ResetPasswordPage;
