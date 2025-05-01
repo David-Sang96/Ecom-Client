@@ -22,12 +22,19 @@ const ErrorPage = lazy(() => import("@/pages/ErrorPage"));
 
 import { AuthSkeleton } from "@/components/skeletons/AuthSkeleton";
 import AboutPage from "@/pages/AboutPage";
+import NewPasswordPage from "@/pages/auth/NewPasswordPage";
 import {
+  forgetPasswordAction,
   loginAction,
   logoutAction,
+  newPasswordAction,
   RegisterAction,
 } from "./actions/authAction";
-import { authCheckLoader, verifyEmailLoader } from "./loaders/authLoader";
+import {
+  authCheckLoader,
+  newPasswordLoader,
+  verifyEmailLoader,
+} from "./loaders/authLoader";
 
 export const router = createBrowserRouter([
   {
@@ -71,6 +78,7 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
         action: RegisterAction,
+        loader: authCheckLoader,
       },
       {
         path: "login",
@@ -80,6 +88,7 @@ export const router = createBrowserRouter([
           </Suspense>
         ),
         action: loginAction,
+        loader: authCheckLoader,
       },
       {
         path: "logout",
@@ -89,6 +98,14 @@ export const router = createBrowserRouter([
       {
         path: "forget-password",
         element: <ForgetPasswordPage />,
+        action: forgetPasswordAction,
+        loader: authCheckLoader,
+      },
+      {
+        path: "new-password",
+        element: <NewPasswordPage />,
+        loader: newPasswordLoader,
+        action: newPasswordAction,
       },
       {
         path: "reset-password",

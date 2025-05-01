@@ -1,14 +1,12 @@
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa6";
 
-import * as React from "react";
+import { InputHTMLAttributes, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
-const PasswordInput = ({
-  ...props
-}: React.InputHTMLAttributes<HTMLInputElement>) => {
-  const [show, setShow] = React.useState(false);
+const PasswordInput = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => {
+  const [show, setShow] = useState(false);
 
   return (
     <div className="relative">

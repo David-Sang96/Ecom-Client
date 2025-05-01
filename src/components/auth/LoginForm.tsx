@@ -111,6 +111,7 @@ export function LoginForm({
                         type="email"
                         placeholder="foe@example.com..."
                         {...field}
+                        disabled={isSubmitting}
                       />
                     </FormControl>
                     <FormMessage />
@@ -132,7 +133,11 @@ export function LoginForm({
                       </Link>
                     </div>
                     <FormControl>
-                      <PasswordInput {...field} placeholder="*********" />
+                      <PasswordInput
+                        {...field}
+                        placeholder="*********"
+                        disabled={isSubmitting}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -148,7 +153,7 @@ export function LoginForm({
                   {isSubmitting && (
                     <LoaderCircle className="animate-spin" aria-hidden="true" />
                   )}
-                  {isSubmitting ? "Logging in" : "Log in"}
+                  {isSubmitting ? "Logging in..." : "Log in"}
                 </Button>
                 <Button variant="outline" className="w-full cursor-pointer">
                   Login with Google
