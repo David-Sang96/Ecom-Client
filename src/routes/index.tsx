@@ -1,11 +1,9 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, redirect } from "react-router";
 
-// lazy load layouts
 const RootLayout = lazy(() => import("@/layouts/RootLayout"));
 const AuthLayout = lazy(() => import("@/layouts/AuthLayout"));
 
-// lazy load pages
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
 const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
@@ -16,13 +14,13 @@ const ResetPasswordPage = lazy(() => import("@/pages/auth/ResetPasswordPage"));
 const EmailVerificationPage = lazy(
   () => import("@/pages/auth/EmailVerificationPage")
 );
+const NewPasswordPage = lazy(() => import("@/pages/auth/NewPasswordPage"));
 const ErrorPage = lazy(() => import("@/pages/ErrorPage"));
-
-// loader
+const AboutPage = lazy(() => import("@/pages/AboutPage"));
+const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
 
 import { AuthSkeleton } from "@/components/skeletons/AuthSkeleton";
-import AboutPage from "@/pages/AboutPage";
-import NewPasswordPage from "@/pages/auth/NewPasswordPage";
+
 import {
   forgetPasswordAction,
   loginAction,
@@ -58,6 +56,11 @@ export const router = createBrowserRouter([
       {
         path: "about",
         element: <AboutPage />,
+        loader: authCheckLoader,
+      },
+      {
+        path: "me",
+        element: <ProfilePage />,
         loader: authCheckLoader,
       },
     ],
@@ -97,19 +100,31 @@ export const router = createBrowserRouter([
       },
       {
         path: "forget-password",
-        element: <ForgetPasswordPage />,
+        element: (
+          <Suspense fallback={<AuthSkeleton />}>
+            <ForgetPasswordPage />
+          </Suspense>
+        ),
         action: forgetPasswordAction,
         loader: authCheckLoader,
       },
       {
         path: "new-password",
-        element: <NewPasswordPage />,
+        element: (
+          <Suspense fallback={<AuthSkeleton />}>
+            <NewPasswordPage />
+          </Suspense>
+        ),
         loader: newPasswordLoader,
         action: newPasswordAction,
       },
       {
         path: "reset-password",
-        element: <ResetPasswordPage />,
+        element: (
+          <Suspense fallback={<AuthSkeleton />}>
+            <ResetPasswordPage />
+          </Suspense>
+        ),
         loader: authCheckLoader,
       },
       {

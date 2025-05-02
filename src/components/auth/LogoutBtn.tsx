@@ -2,8 +2,14 @@ import { LogOut } from "lucide-react";
 import { useEffect } from "react";
 import { useFetcher } from "react-router";
 import { toast } from "sonner";
+import { TooltipHover } from "../Tooltip";
+import { Button } from "../ui/button";
 
-const LogoutBtn = () => {
+type LogoutBtnProp = {
+  isNav: boolean;
+};
+
+const LogoutBtn = ({ isNav = true }: LogoutBtnProp) => {
   const fetcher = useFetcher();
 
   useEffect(() => {
@@ -20,13 +26,21 @@ const LogoutBtn = () => {
       )}`}
       className="px-2 py-1 cursor-pointer"
     >
-      <button
-        type="submit"
-        className="cursor-pointer text-sm flex justify-between w-full"
-      >
-        Logout
-        <LogOut aria-hidden="true" size={18} />
-      </button>
+      {isNav ? (
+        <button
+          type="submit"
+          className="cursor-pointer text-sm flex justify-between w-full"
+        >
+          Logout
+          <LogOut aria-hidden="true" size={18} />
+        </button>
+      ) : (
+        <TooltipHover content="logout">
+          <Button className="cursor-pointer" size={"sm"} aria-label="log out">
+            <LogOut className="size-4" />
+          </Button>
+        </TooltipHover>
+      )}
     </fetcher.Form>
   );
 };

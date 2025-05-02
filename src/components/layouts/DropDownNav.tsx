@@ -1,4 +1,5 @@
 import { LayoutDashboard, Settings, UserRound } from "lucide-react";
+import { Link } from "react-router";
 import LogoutBtn from "../auth/LogoutBtn";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -25,12 +26,14 @@ export function DropDownNav() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem className="cursor-pointer">
-            Profile
-            <DropdownMenuShortcut>
-              <UserRound aria-hidden="true" />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <Link to={"/me"}>
+            <DropdownMenuItem className="cursor-pointer">
+              Profile
+              <DropdownMenuShortcut>
+                <UserRound aria-hidden="true" />
+              </DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuItem className="cursor-pointer">
             Settings
             <DropdownMenuShortcut>
@@ -46,7 +49,7 @@ export function DropDownNav() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <LogoutBtn />
+          <LogoutBtn isNav />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

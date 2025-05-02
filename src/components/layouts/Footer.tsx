@@ -1,6 +1,7 @@
 import { BiLogoFacebook } from "react-icons/bi";
 import { LiaInstagram, LiaTwitter } from "react-icons/lia";
 import { TiSocialLinkedin } from "react-icons/ti";
+import { TooltipHover } from "../Tooltip";
 
 const company = ["About", "Contact us", "Support", "Careers"];
 const link = ["Share Location", "Orders Tracking", "Size Guide", "FAQs"];
@@ -15,18 +16,26 @@ const Footer = () => {
           Enjoy your shopping with us for better life style.
         </p>
         <div className="flex items-center gap-1 w-full md:w-sm lg:w-xl xl:w-2xl">
-          <div className="bg-primary text-white p-1.5 rounded-sm cursor-pointer">
-            <BiLogoFacebook aria-label="facebook icon" />
-          </div>
-          <div className="bg-primary text-white p-1.5 rounded-sm cursor-pointer">
-            <LiaInstagram aria-label="instagram icon" />
-          </div>
-          <div className="bg-primary text-white p-1.5 rounded-sm cursor-pointer">
-            <LiaTwitter aria-label="twitter icon" />
-          </div>
-          <div className="bg-primary text-white p-1.5 rounded-sm cursor-pointer">
-            <TiSocialLinkedin aria-label="linkedin icon" />
-          </div>
+          <TooltipHover content="facebook">
+            <div className=" rounded-sm cursor-pointer border">
+              <BiLogoFacebook aria-label="facebook icon" size={22} />
+            </div>
+          </TooltipHover>
+          <TooltipHover content="instagram">
+            <div className=" rounded-sm cursor-pointer border">
+              <LiaInstagram aria-label="instagram icon" size={22} />
+            </div>
+          </TooltipHover>
+          <TooltipHover content="twitter">
+            <div className=" rounded-sm cursor-pointe border">
+              <LiaTwitter aria-label="twitter icon" size={22} />
+            </div>
+          </TooltipHover>
+          <TooltipHover content="linkedin">
+            <div className=" rounded-sm cursor-pointer border">
+              <TiSocialLinkedin aria-label="linkedin icon" size={22} />
+            </div>
+          </TooltipHover>
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 flex-1 gap-6">
@@ -34,7 +43,7 @@ const Footer = () => {
           <h3>Company</h3>
           {company.map((item, idx) => (
             <ul key={idx}>
-              <li className="text-muted-foreground text-sm cursor-pointer hover:text-black/90">
+              <li className="text-muted-foreground text-sm cursor-pointer hover:text-black/90 hover:dark:text-white/90">
                 {item}
               </li>
             </ul>
@@ -44,7 +53,7 @@ const Footer = () => {
           <h3>Quick Link</h3>
           {link.map((item, idx) => (
             <ul key={idx}>
-              <li className="text-muted-foreground text-sm cursor-pointer hover:text-black/90">
+              <li className="text-muted-foreground text-sm cursor-pointer hover:text-black/90 hover:dark:text-white/90">
                 {item}
               </li>
             </ul>
