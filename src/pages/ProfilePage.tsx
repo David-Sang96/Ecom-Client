@@ -1,38 +1,56 @@
+import { BiEnvelope } from "react-icons/bi";
+import { IoCheckmarkSharp } from "react-icons/io5";
+
 import LogoutBtn from "@/components/auth/LogoutBtn";
-import { TooltipHover } from "@/components/Tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import ProfileDialog from "@/components/user/ProfileDialog";
+import { TooltipHover } from "@/components/user/Tooltip";
 import useAuthStore from "@/store/authStore";
 
-import { Ellipsis } from "lucide-react";
-import { BiEnvelope } from "react-icons/bi";
-
 const ProfilePage = () => {
-  const { email, name, role } = useAuthStore();
+  const { email, name, role, accountStatus, isEmailVerified, image } =
+    useAuthStore();
 
   return (
-    <section className="mx-auto max-w-xl pt-16 md:pt-24 ">
+    <section className="mx-auto max-w-xl py-16 md:pt-24 ">
       <Card>
         <CardHeader>
           <Avatar className="size-32 md:size-40 rounded-md mx-auto">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            {image ? (
+              <AvatarImage src={image} alt="profile picture" />
+            ) : (
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            )}
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="w-[80px] bg-green-200 flex items-center justify-center rounded-md py-1 gap-1 text-xs md:text-sm">
-            <p className="size-5  flex items-center justify-center rounded-full bg-green-600 text-white">
-              <span>%</span>
-            </p>
-            <p className="text-green-700 font-medium">LVL 8</p>
+          <div className="flex gap-4 items-center">
+            <div className="w-[80px] bg-green-200 flex items-center justify-center rounded-md p-1 gap-1 text-xs md:text-sm">
+              <p className="size-4 flex items-center justify-center rounded-full bg-green-600 text-white">
+                <IoCheckmarkSharp />
+              </p>
+              <p className="text-green-800 font-medium text-xs">
+                {isEmailVerified && "Verified"}
+              </p>
+            </div>
+            <div className="w-[80px] bg-green-200 flex items-center justify-center rounded-md p-1 gap-1 text-xs md:text-sm">
+              <p className="size-4 flex items-center justify-center rounded-full bg-green-600 text-white">
+                <IoCheckmarkSharp />
+              </p>
+              <p className="text-green-800 font-medium text-xs">
+                {accountStatus}
+              </p>
+            </div>
           </div>
           <div className="md:flex md:justify-between md:items-end ">
             <div className="max-md:mb-5">
               <div className="flex items-center gap-3 mb-2">
                 <h2 className="md:text-xl font-medium ">{name}</h2>
                 {role === "ADMIN" && (
-                  <p className="text-xs lowercase bg-black text-white dark:bg-white dark:text-black px-2 py-1 rounded-md">
+                  <p className="text-xs lowercase bg-black text-white dark:bg-white dark:text-black px-2 py-1 rounded-md font-bold">
                     {role}
                   </p>
                 )}
@@ -50,15 +68,7 @@ const ProfilePage = () => {
                 </Button>
               </TooltipHover>
               <LogoutBtn isNav={false} />
-              <TooltipHover content="setting">
-                <Button
-                  className="cursor-pointer"
-                  size={"sm"}
-                  aria-label="setting"
-                >
-                  <Ellipsis className="size-4" />
-                </Button>
-              </TooltipHover>
+              <ProfileDialog />
             </div>
           </div>
         </CardContent>

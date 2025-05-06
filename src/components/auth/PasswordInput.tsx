@@ -9,7 +9,7 @@ const PasswordInput = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => {
   const [show, setShow] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <Input type={show ? "text" : "password"} {...props} />
       <Button
         variant={"ghost"}

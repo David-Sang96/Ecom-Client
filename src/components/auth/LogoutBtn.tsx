@@ -2,8 +2,8 @@ import { LogOut } from "lucide-react";
 import { useEffect } from "react";
 import { useFetcher } from "react-router";
 import { toast } from "sonner";
-import { TooltipHover } from "../Tooltip";
 import { Button } from "../ui/button";
+import { TooltipHover } from "../user/Tooltip";
 
 type LogoutBtnProp = {
   isNav: boolean;

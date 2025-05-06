@@ -25,7 +25,6 @@ export const verifyEmailLoader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const token = url.searchParams.get("token");
   const userId = url.searchParams.get("userId");
-  const auth = useAuthStore.getState();
 
   try {
     const response = await fetchAuthApi.post("/verify-email", {
@@ -33,15 +32,6 @@ export const verifyEmailLoader = async ({ request }: LoaderFunctionArgs) => {
       userId,
     });
 
-    const userInfo = {
-      id: response.data.user.id,
-      name: response.data.user.name,
-      email: response.data.user.email,
-      role: response.data.user.role,
-      status: Status.none,
-    };
-
-    auth.setAuth(userInfo);
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {

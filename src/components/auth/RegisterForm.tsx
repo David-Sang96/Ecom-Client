@@ -166,7 +166,11 @@ export function RegisterForm({
                   )}
                   {isSubmitting ? "Signing Up..." : "Sign Up"}
                 </Button>
-                <Button variant="outline" className="w-full cursor-pointer">
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="w-full cursor-pointer"
+                >
                   Login with Google
                 </Button>
               </div>

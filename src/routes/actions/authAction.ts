@@ -37,6 +37,10 @@ export const loginAction = async ({ request }: ActionFunctionArgs) => {
       id: response.data.user.id,
       name: response.data.user.name,
       email: response.data.user.email,
+      image: response.data.user.image,
+      accountStatus: response.data.user.accStatus,
+      isEmailVerified: response.data.user.isEmailVerified,
+      updatedAt: response.data.user.updatedAt,
       role: response.data.user.role,
       status: Status.none,
     };
@@ -59,6 +63,7 @@ export const logoutAction = async ({ request }: ActionFunctionArgs) => {
     const url = new URL(request.url);
     const redirectTo = url.searchParams.get("redirectTo") || "/";
     auth.clearAuth();
+    localStorage.removeItem("auth-credentails");
     return redirect(`/auth/login?redirectTo=${encodeURIComponent(redirectTo)}`);
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -76,10 +81,7 @@ export const forgetPasswordAction = async ({ request }: ActionFunctionArgs) => {
   try {
     const response = await fetchAuthApi.post("/forget", { email });
     const userInfo = {
-      id: auth.id,
-      name: auth.name,
-      email: auth.email,
-      role: auth.role,
+      ...auth,
       status: Status.forget,
     };
     auth.setAuth(userInfo);
@@ -104,5 +106,20 @@ export const newPasswordAction = async ({ request }: ActionFunctionArgs) => {
       return error.response?.data || "something went wrong";
     }
     return { message: "something went wrong", success: false };
+  }
+};
+
+export const resetPasswordAction = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const credentials = Object.fromEntries(formData);
+
+  try {
+    const response = await fetchApi.post("/reset-password", credentials);
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data || "Something went wrong";
+    }
+    return { message: "Something went wrong", success: false };
   }
 };

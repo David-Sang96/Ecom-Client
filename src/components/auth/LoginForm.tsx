@@ -99,7 +99,7 @@ export function LoginForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="email"
@@ -144,7 +144,7 @@ export function LoginForm({
                 )}
               />
 
-              <div className=" space-y-3">
+              <div className="space-y-2 pt-3">
                 <Button
                   type="submit"
                   className="w-full cursor-pointer disabled:cursor-not-allowed"
@@ -155,7 +155,11 @@ export function LoginForm({
                   )}
                   {isSubmitting ? "Logging in..." : "Log in"}
                 </Button>
-                <Button variant="outline" className="w-full cursor-pointer">
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="w-full cursor-pointer"
+                >
                   Login with Google
                 </Button>
               </div>

@@ -10,7 +10,6 @@ const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
 const ForgetPasswordPage = lazy(
   () => import("@/pages/auth/ForgetPasswordPage")
 );
-const ResetPasswordPage = lazy(() => import("@/pages/auth/ResetPasswordPage"));
 const EmailVerificationPage = lazy(
   () => import("@/pages/auth/EmailVerificationPage")
 );
@@ -27,6 +26,7 @@ import {
   logoutAction,
   newPasswordAction,
   RegisterAction,
+  resetPasswordAction,
 } from "./actions/authAction";
 import {
   authCheckLoader,
@@ -62,6 +62,7 @@ export const router = createBrowserRouter([
         path: "me",
         element: <ProfilePage />,
         loader: authCheckLoader,
+        action: resetPasswordAction,
       },
     ],
   },
@@ -118,15 +119,7 @@ export const router = createBrowserRouter([
         loader: newPasswordLoader,
         action: newPasswordAction,
       },
-      {
-        path: "reset-password",
-        element: (
-          <Suspense fallback={<AuthSkeleton />}>
-            <ResetPasswordPage />
-          </Suspense>
-        ),
-        loader: authCheckLoader,
-      },
+
       {
         path: "verify-email",
         element: <EmailVerificationPage />,
