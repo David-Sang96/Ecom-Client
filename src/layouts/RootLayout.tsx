@@ -16,7 +16,7 @@ const RootLayout = () => {
           expand={true}
         />
         <Navbar />
-        <div className="p-3 flex-1">
+        <div className="px-2 flex-1">
           <Outlet />
         </div>
         <Footer />

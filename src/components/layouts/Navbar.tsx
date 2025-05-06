@@ -7,7 +7,7 @@ import { NavMenu } from "./NavMenu";
 
 const Navbar = () => {
   return (
-    <div className="flex items-center justify-between py-2 px-4">
+    <header className="flex items-center justify-between py-4 px-4 sticky top-0 z-50 w-full border-b  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
       <div className="flex gap-10">
         <div className=" hidden lg:flex items-center gap-1">
           <Globe size={26} aria-hidden={true} />
@@ -22,7 +22,7 @@ const Navbar = () => {
         <ModeToggler />
         <DropDownNav />
       </div>
-    </div>
+    </header>
   );
 };
 
