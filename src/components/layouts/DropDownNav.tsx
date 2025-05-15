@@ -1,3 +1,4 @@
+import useAuthStore from "@/store/authStore";
 import { LayoutDashboard, Settings, UserRound } from "lucide-react";
 import { Link } from "react-router";
 import LogoutBtn from "../auth/LogoutBtn";
@@ -14,12 +15,22 @@ import {
 } from "../ui/dropdown-menu";
 
 export function DropDownNav() {
+  const { image, name } = useAuthStore();
+  const firstLetters = name
+    ?.split(" ")
+    .map((item) => item.slice(0, 1).toUpperCase())
+    .join("");
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="cursor-pointer">
         <Avatar className="size-9">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage
+            src={image?.url}
+            alt="profile picture"
+            className="size-full rounded-full border border-green-300 object-cover"
+          />
+          <AvatarFallback>{firstLetters}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end">

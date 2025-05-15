@@ -35,6 +35,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import ProfileImageUploader from "./ProfileImageUploader";
 import { TooltipHover } from "./Tooltip";
 
 const ProfileDialog = () => {
@@ -78,14 +79,7 @@ const ProfileDialog = () => {
     } else if (actionData.success && actionData.type === "account-update") {
       toast.success(actionData.message);
       const userInfo = {
-        id: actionData.user.id,
-        name: actionData.user.name,
-        email: actionData.user.email,
-        image: actionData.user.image,
-        accountStatus: actionData.user.accStatus,
-        isEmailVerified: actionData.user.isEmailVerified,
-        updatedAt: actionData.user.updatedAt,
-        role: actionData.user.role,
+        ...actionData.user,
         status: Status.none,
       };
       setUser(userInfo);
@@ -119,11 +113,21 @@ const ProfileDialog = () => {
           </Button>
         </TooltipHover>
       </DialogTrigger>
-      <DialogContent className="max-md:p-3 max-md:py-4 top-[40%] ">
+      <DialogContent className="top-[40%] max-md:p-3 max-md:py-4">
         <Tabs defaultValue="account">
           <TabsList>
-            <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
+            <TabsTrigger value="account" className="cursor-pointer">
+              Account
+            </TabsTrigger>
+            <TabsTrigger value="password" className="cursor-pointer">
+              Password
+            </TabsTrigger>
+            <TabsTrigger
+              value="profile-image-uploader"
+              className="cursor-pointer"
+            >
+              Profile Image
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="account">
@@ -139,7 +143,7 @@ const ProfileDialog = () => {
                 <Form {...accountForm}>
                   <form
                     onSubmit={accountForm.handleSubmit(accountFormSubmit)}
-                    className="space-y-4 md:space-y-6 "
+                    className="space-y-4 md:space-y-6"
                   >
                     <FormField
                       control={accountForm.control}
@@ -152,7 +156,7 @@ const ProfileDialog = () => {
                               <Input
                                 {...field}
                                 autoFocus
-                                className=" max-md:text-sm"
+                                className="max-md:text-sm"
                               />
                             </FormControl>
                           </div>
@@ -172,7 +176,7 @@ const ProfileDialog = () => {
                               <Input
                                 type="email"
                                 {...field}
-                                className=" max-md:text-sm"
+                                className="max-md:text-sm"
                               />
                             </FormControl>
                           </div>
@@ -184,7 +188,7 @@ const ProfileDialog = () => {
                     <div className="text-end">
                       <Button
                         type="submit"
-                        className="w-[30%] text-end cursor-pointer disabled:cursor-not-allowed"
+                        className="w-[30%] cursor-pointer text-end disabled:cursor-not-allowed"
                         disabled={isSubmitting || !accountFormDirty}
                       >
                         {isSubmitting && (
@@ -213,7 +217,7 @@ const ProfileDialog = () => {
                 <Form {...passwordForm}>
                   <form
                     onSubmit={passwordForm.handleSubmit(passwordFormSubmit)}
-                    className="space-y-4 md:space-y-6 "
+                    className="space-y-4 md:space-y-6"
                   >
                     <FormField
                       control={passwordForm.control}
@@ -259,7 +263,7 @@ const ProfileDialog = () => {
                       render={({ field }) => (
                         <FormItem>
                           <div className="flex gap-2">
-                            <FormLabel className="w-20 ">
+                            <FormLabel className="w-20">
                               Confirm Password
                             </FormLabel>
                             <FormControl>
@@ -276,7 +280,7 @@ const ProfileDialog = () => {
                     <div className="text-end">
                       <Button
                         type="submit"
-                        className="w-[30%] text-end cursor-pointer disabled:cursor-not-allowed"
+                        className="w-[30%] cursor-pointer text-end disabled:cursor-not-allowed"
                         disabled={isSubmitting || !passwordFormDirty}
                       >
                         {isSubmitting && (
@@ -292,6 +296,9 @@ const ProfileDialog = () => {
                 </Form>
               </CardContent>
             </Card>
+          </TabsContent>
+          <TabsContent value="profile-image-uploader">
+            <ProfileImageUploader setOpen={setOpen} />
           </TabsContent>
         </Tabs>
       </DialogContent>

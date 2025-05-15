@@ -15,11 +15,11 @@ export enum AccountStatus {
   FREEZE = "FREEZE",
 }
 
-type UserInfo = {
+export type UserInfo = {
   id: null;
   name: string | null;
   email: string | null;
-  image: string | null;
+  image: { url: string; public_id: string } | null;
   role: Role | null;
   isEmailVerified: boolean | null;
   accountStatus: AccountStatus | null;
@@ -75,8 +75,8 @@ const useAuthStore = create<UserInfo & Actions>()(
     })),
     {
       name: "auth-credentails",
-    }
-  )
+    },
+  ),
 );
 
 export default useAuthStore;

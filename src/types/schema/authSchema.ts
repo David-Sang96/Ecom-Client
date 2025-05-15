@@ -14,7 +14,7 @@ export const registerSchema = z.object({
     .string()
     .regex(
       /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/,
-      "Password must contain at least one letter and one digit"
+      "Password must contain at least one letter and one digit",
     )
     .min(8, "Password must be at least 8 characters")
     .max(15, "Password is too long"),
@@ -25,7 +25,7 @@ export const registerSchema = z.object({
     .optional()
     .refine(
       (val) => !val || /^[a-zA-Z0-9]+$/.test(val),
-      "Secret can only contain letters and numbers"
+      "Secret can only contain letters and numbers",
     ),
 });
 
@@ -38,7 +38,7 @@ export const loginSchema = z.object({
     .string()
     .regex(
       /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/,
-      "Password must contain at least one letter and one digit"
+      "Password must contain at least one letter and one digit",
     )
     .min(8, "Password must be at least 8 characters")
     .max(15, "Password is too long"),
@@ -61,7 +61,7 @@ export const newPasswordSchema = z
       .string()
       .regex(
         /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/,
-        "Password must contain at least one letter and one digit"
+        "Password must contain at least one letter and one digit",
       )
       .min(8, "Password must be at least 8 characters")
       .max(15, "Password is too long"),
@@ -79,7 +79,7 @@ export const resetPasswordSchema = z
       .string()
       .regex(
         /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/,
-        "Current password must contain at least one letter and one digit"
+        "Current password must contain at least one letter and one digit",
       )
       .min(8, "Current password must be at least 8 characters")
       .max(15, "Current password is too long"),
@@ -87,7 +87,7 @@ export const resetPasswordSchema = z
       .string()
       .regex(
         /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/,
-        "New password must contain at least one letter and one digit"
+        "New password must contain at least one letter and one digit",
       )
       .min(8, "New password must be at least 8 characters")
       .max(15, "New password is too long"),
@@ -108,4 +108,25 @@ export const resetAccountSchema = z.object({
     .string()
     .trim()
     .email({ message: "Please enter a valid email address" }),
+});
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
+
+export const uploadProfileSchema = z.object({
+  image: z
+    .instanceof(File, {
+      message: "Please select an image file.",
+    })
+    .refine((file) => file.size <= MAX_FILE_SIZE, {
+      message: `The image is too large. Please choose an image smaller than 5MB.`,
+    })
+    .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+      message: "Please upload a valid image file (JPEG, PNG, JPG, or WebP).",
+    }),
 });
