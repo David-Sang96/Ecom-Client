@@ -1,3 +1,4 @@
+import ProgressBar from "@/components/ProgressBar";
 import { Outlet, ScrollRestoration } from "react-router";
 import { Toaster } from "sonner";
 import Footer from "../components/layouts/Footer";
@@ -6,7 +7,7 @@ import Navbar from "../components/layouts/Navbar";
 const RootLayout = () => {
   return (
     <section>
-      <div className="container mx-auto min-h-screen flex flex-col justify-between py-2">
+      <div className="container mx-auto flex min-h-screen flex-col justify-between py-2">
         <ScrollRestoration />
         <Toaster
           position="top-center"
@@ -15,8 +16,9 @@ const RootLayout = () => {
           duration={3000}
           expand={true}
         />
+        <ProgressBar />
         <Navbar />
-        <div className="px-2 flex-1">
+        <div className="flex-1 px-2">
           <Outlet />
         </div>
         <Footer />

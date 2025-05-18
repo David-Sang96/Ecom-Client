@@ -45,6 +45,5 @@ export const newPasswordLoader = () => {
   if (auth.status !== Status.forget) {
     return redirect("/auth/forget-password");
   }
-
   return null;
 };

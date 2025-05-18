@@ -8,10 +8,10 @@ const HomePage = lazy(() => import("@/pages/HomePage"));
 const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
 const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
 const ForgetPasswordPage = lazy(
-  () => import("@/pages/auth/ForgetPasswordPage")
+  () => import("@/pages/auth/ForgetPasswordPage"),
 );
 const EmailVerificationPage = lazy(
-  () => import("@/pages/auth/EmailVerificationPage")
+  () => import("@/pages/auth/EmailVerificationPage"),
 );
 const NewPasswordPage = lazy(() => import("@/pages/auth/NewPasswordPage"));
 const ErrorPage = lazy(() => import("@/pages/ErrorPage"));
@@ -20,6 +20,8 @@ const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
 
 import { AuthSkeleton } from "@/components/skeletons/AuthSkeleton";
 
+import ProductDetailPage from "@/pages/product/ProductDetailPage";
+import ProductsPage from "@/pages/product/ProductsPage";
 import {
   forgetPasswordAction,
   loginAction,
@@ -33,25 +35,22 @@ import {
   newPasswordLoader,
   verifyEmailLoader,
 } from "./loaders/authLoader";
+import { homeAuthLoader } from "./loaders/homeLoader";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback={<p>loading...</p>}>
+      <Suspense fallback={<p>loading in route page...</p>}>
         <RootLayout />
       </Suspense>
     ),
-    errorElement: (
-      <Suspense fallback={<p>loading...</p>}>
-        <ErrorPage />
-      </Suspense>
-    ),
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
         element: <HomePage />,
-        loader: authCheckLoader,
+        loader: homeAuthLoader,
       },
       {
         path: "about",
@@ -61,8 +60,18 @@ export const router = createBrowserRouter([
       {
         path: "me",
         element: <ProfilePage />,
-        loader: authCheckLoader,
         action: resetPasswordAction,
+        loader: authCheckLoader,
+      },
+      {
+        path: "/products",
+        element: <ProductsPage />,
+        loader: authCheckLoader,
+      },
+      {
+        path: "/products/:id",
+        element: <ProductDetailPage />,
+        loader: authCheckLoader,
       },
     ],
   },
