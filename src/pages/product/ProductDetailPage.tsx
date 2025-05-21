@@ -1,18 +1,24 @@
-import { products } from "@/assets/data";
+import { oneProductQuery } from "@/api/query";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/lib/formatCurrency";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { useLoaderData } from "react-router";
 
 const ProductDetailPage = () => {
-  const product = products[0];
+  const { productId } = useLoaderData();
+  const { data } = useSuspenseQuery(oneProductQuery(productId));
+  const categories = data.product.categories
+    .map((item: string) => item)
+    .join(",");
 
   return (
     <section className="px-4 py-8 md:py-12">
       <div className="grid gap-10 md:grid-cols-2">
         <div className="bg-muted relative aspect-square overflow-hidden rounded-lg">
           <img
-            src={product.image}
+            src={data.product.images[0].url}
             alt="shirt"
             loading="lazy"
             decoding="async"
@@ -22,12 +28,12 @@ const ProductDetailPage = () => {
 
         <div>
           <div className="mb-10">
-            <h2 className="text-3xl font-bold">{product.name}</h2>
+            <h2 className="text-3xl font-bold">{data.product.name}</h2>
             <p className="mt-2 text-2xl font-semibold">
-              {formatPrice(product.price, { notation: "standard" })}
+              {formatPrice(data.product.price, { notation: "standard" })}
             </p>
             <div className="text-muted-foreground mt-4">
-              {product.description}
+              {data.product.description}
             </div>
           </div>
 
@@ -64,9 +70,9 @@ const ProductDetailPage = () => {
           <div className="mt-7 md:mt-10">
             <h3 className="mb-2 text-xl font-medium">Product Details</h3>
             <ul className="text-muted-foreground list-inside list-disc space-y-1">
-              <li>Category: {product.category}</li>
-              <li>In Stock: {product.countInStock > 1 ? "Yes" : "No"} </li>
-              <li>Total Stocks: {product.countInStock} </li>
+              <li>Category: {categories}</li>
+              <li>In Stock: {data.product.countInStock > 1 ? "Yes" : "No"} </li>
+              <li>Total Stocks: {data.product.countInStock} </li>
               <li>Free shipping on orders over $50</li>
             </ul>
           </div>
