@@ -36,16 +36,12 @@ const MobileNavMenu = () => {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="pt-5">
-          <SheetClose asChild>
-            <div className="flex items-center gap-1 ps-3">
-              <Globe size={26} aria-hidden={true} />
-              <Link to={"/"} className="text-2xl font-medium">
-                Ecom
-              </Link>
-            </div>
-          </SheetClose>
+          <div className="flex items-center gap-1 ps-3">
+            <Globe size={26} aria-hidden={true} />
+            <span className="text-2xl font-medium">Ecom</span>
+          </div>
           <ScrollArea className="my-4 h-[calc(100vh-20rem)]">
-            <div className="flex-col gap-2 text-center space-y-2">
+            <div className="flex-col gap-2 space-y-2 text-center">
               <div className="pb-1">
                 <SheetClose asChild>
                   <Link to={"/"}>Home</Link>

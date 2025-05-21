@@ -1,7 +1,7 @@
-import { Globe, ShoppingCart } from "lucide-react";
+import { Globe } from "lucide-react";
 import { Link } from "react-router";
 import { ModeToggler } from "../ModeToggler";
-import { Button } from "../ui/button";
+import CartDrawer from "../product/CartDrawer";
 import { DropDownNav } from "./DropDownNav";
 import MobileNavMenu from "./MobileNavMenu";
 import { NavMenu } from "./NavMenu";
@@ -19,18 +19,8 @@ const Navbar = () => {
         <NavMenu />
         <MobileNavMenu />
       </div>
-      <div className="flex items-center gap-3">
-        <Button
-          variant={"ghost"}
-          size={"icon"}
-          className="cursor-pointer rounded-md border"
-          aria-label="shopping cart"
-          asChild
-        >
-          <Link to={"/cart"}>
-            <ShoppingCart className="size-5" aria-hidden="true" />
-          </Link>
-        </Button>
+      <div className="flex items-center gap-4">
+        <CartDrawer />
         <ModeToggler />
         <DropDownNav />
       </div>

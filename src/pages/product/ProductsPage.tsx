@@ -69,7 +69,7 @@ const ProductsPage = () => {
   ) : status === "error" ? (
     <p>Error: {error.message}</p>
   ) : (
-    <section className="mx-auto px-4 py-8 md:px-6 md:py-12">
+    <section>
       <div className="item-center flex justify-between">
         <h2 className="mb-8 w-1/4 text-3xl font-bold max-lg:hidden">
           All Products

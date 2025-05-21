@@ -2,6 +2,7 @@ import { oneProductQuery } from "@/api/query";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/lib/formatCurrency";
+import { useCartStore } from "@/store/cartStore";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { useLoaderData } from "react-router";
@@ -9,14 +10,24 @@ import { useLoaderData } from "react-router";
 const ProductDetailPage = () => {
   const { productId } = useLoaderData();
   const { data } = useSuspenseQuery(oneProductQuery(productId));
+  const addToCart = useCartStore((store) => store.addItem);
+  const increateQuantity = useCartStore((store) => store.increaseQuantity);
+  const decreateQuantity = useCartStore((store) => store.decreaseQuantity);
+
   const categories = data.product.categories
     .map((item: string) => item)
     .join(",");
 
+  const handleIncrease = () => {};
+
+  const handleDecrease = () => {};
+
+  const handleAddToCart = () => {};
+
   return (
-    <section className="px-4 py-8 md:py-12">
-      <div className="grid gap-10 md:grid-cols-2">
-        <div className="bg-muted relative aspect-square overflow-hidden rounded-lg">
+    <section>
+      <div className="grid gap-10 md:grid-cols-2 xl:gap-0">
+        <div className="bg-muted relative aspect-square overflow-hidden rounded-lg xl:h-[90%]">
           <img
             src={data.product.images[0].url}
             alt="shirt"
@@ -28,8 +39,10 @@ const ProductDetailPage = () => {
 
         <div>
           <div className="mb-10">
-            <h2 className="text-3xl font-bold">{data.product.name}</h2>
-            <p className="mt-2 text-2xl font-semibold">
+            <h2 className="text-2xl font-bold md:text-3xl">
+              {data.product.name}
+            </h2>
+            <p className="mt-2 text-xl font-semibold md:text-2xl">
               {formatPrice(data.product.price, { notation: "standard" })}
             </p>
             <div className="text-muted-foreground mt-4">
@@ -45,6 +58,7 @@ const ProductDetailPage = () => {
                   variant={"ghost"}
                   size={"icon"}
                   className="cursor-pointer"
+                  onClick={handleDecrease}
                 >
                   <Minus className="size-4" />
                 </Button>
@@ -53,13 +67,17 @@ const ProductDetailPage = () => {
                   variant={"ghost"}
                   size={"icon"}
                   className="cursor-pointer"
+                  onClick={handleIncrease}
                 >
                   <Plus className="size-4" />
                 </Button>
               </div>
             </div>
 
-            <Button className="flex w-full cursor-pointer items-center gap-2">
+            <Button
+              className="flex w-full cursor-pointer items-center gap-2"
+              onClick={handleAddToCart}
+            >
               <ShoppingCart className="size-5" />
               Add to cart
             </Button>
