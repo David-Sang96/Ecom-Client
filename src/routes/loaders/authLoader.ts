@@ -13,6 +13,7 @@ export const authCheckLoader = async ({ request }: LoaderFunctionArgs) => {
         return redirect("/");
       }
     }
+    return null;
   } catch (error) {
     if (!path.startsWith("/auth")) {
       return redirect(`/auth/login?redirectTo=${encodeURIComponent(path)}`);

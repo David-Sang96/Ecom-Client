@@ -17,11 +17,14 @@ const NewPasswordPage = lazy(() => import("@/pages/auth/NewPasswordPage"));
 const ErrorPage = lazy(() => import("@/pages/ErrorPage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
 const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
+const ProductDetailPage = lazy(
+  () => import("@/pages/product/ProductDetailPage"),
+);
+const ProductsPage = lazy(() => import("@/pages/product/ProductsPage"));
+const CartPage = lazy(() => import("@/pages/product/CartPage"));
 
 import { AuthSkeleton } from "@/components/skeletons/AuthSkeleton";
-
-import ProductDetailPage from "@/pages/product/ProductDetailPage";
-import ProductsPage from "@/pages/product/ProductsPage";
+import ProductLayout from "@/layouts/ProductLayout";
 import {
   forgetPasswordAction,
   loginAction,
@@ -36,15 +39,12 @@ import {
   verifyEmailLoader,
 } from "./loaders/authLoader";
 import { homeAuthLoader } from "./loaders/homeLoader";
+import { productLoader, productsLoader } from "./loaders/productLoader";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <Suspense fallback={<p>loading in route page...</p>}>
-        <RootLayout />
-      </Suspense>
-    ),
+    element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -64,14 +64,24 @@ export const router = createBrowserRouter([
         loader: authCheckLoader,
       },
       {
-        path: "/products",
-        element: <ProductsPage />,
-        loader: authCheckLoader,
+        path: "products",
+        element: <ProductLayout />,
+        children: [
+          {
+            index: true,
+            element: <ProductsPage />,
+            loader: productsLoader,
+          },
+          {
+            path: ":productId",
+            element: <ProductDetailPage />,
+            loader: productLoader,
+          },
+        ],
       },
       {
-        path: "/products/:id",
-        element: <ProductDetailPage />,
-        loader: authCheckLoader,
+        path: "cart",
+        element: <CartPage />,
       },
     ],
   },
@@ -128,7 +138,6 @@ export const router = createBrowserRouter([
         loader: newPasswordLoader,
         action: newPasswordAction,
       },
-
       {
         path: "verify-email",
         element: <EmailVerificationPage />,

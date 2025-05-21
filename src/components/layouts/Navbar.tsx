@@ -1,15 +1,16 @@
-import { Globe } from "lucide-react";
+import { Globe, ShoppingCart } from "lucide-react";
 import { Link } from "react-router";
 import { ModeToggler } from "../ModeToggler";
+import { Button } from "../ui/button";
 import { DropDownNav } from "./DropDownNav";
 import MobileNavMenu from "./MobileNavMenu";
 import { NavMenu } from "./NavMenu";
 
 const Navbar = () => {
   return (
-    <header className="flex items-center justify-between py-4 px-4 sticky top-0 z-50 w-full border-b  bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
+    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 flex w-full items-center justify-between border-b px-4 py-4 backdrop-blur">
       <div className="flex gap-10">
-        <div className=" hidden lg:flex items-center gap-1">
+        <div className="hidden items-center gap-1 lg:flex">
           <Globe size={26} aria-hidden={true} />
           <Link to={"/"} className="text-3xl font-medium">
             Ecom
@@ -19,6 +20,17 @@ const Navbar = () => {
         <MobileNavMenu />
       </div>
       <div className="flex items-center gap-3">
+        <Button
+          variant={"ghost"}
+          size={"icon"}
+          className="cursor-pointer rounded-md border"
+          aria-label="shopping cart"
+          asChild
+        >
+          <Link to={"/cart"}>
+            <ShoppingCart className="size-5" aria-hidden="true" />
+          </Link>
+        </Button>
         <ModeToggler />
         <DropDownNav />
       </div>

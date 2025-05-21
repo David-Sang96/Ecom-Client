@@ -18,7 +18,7 @@ const RootLayout = () => {
         />
         <ProgressBar />
         <Navbar />
-        <div className="flex-1 px-2">
+        <div className="flex-1 px-2 md:px-4">
           <Outlet />
         </div>
         <Footer />
