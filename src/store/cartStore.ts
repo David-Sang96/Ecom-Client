@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
-type CartItem = {
+export type CartItem = {
   _id: string;
   name: string;
   price: number;
@@ -19,8 +19,9 @@ type CartState = {
 type Actions = {
   addItem: (item: CartItem) => void;
   removeItem: (id: string) => void;
-  increaseQuantity: (id: string, quantity: number) => void;
-  decreaseQuantity: (id: string, quantity: number) => void;
+  increaseQuantity: (id: string, quantity?: number) => void;
+  decreaseQuantity: (id: string, quantity?: number) => void;
+  updateQuantity: (id: string, quantity: number) => void;
   clear: () => void;
 };
 
@@ -42,31 +43,45 @@ export const useCartStore = create<Actions & CartState>()(
         }),
       removeItem: (_id) =>
         set((state) => {
-          const item = state.items.find((item) => item._id === _id);
-          if (item) {
-            state.totalPrice -= item.quantity * item.price;
-            state.items.filter((item) => item._id !== item._id);
+          const existing = state.items.find((item) => item._id === _id);
+          if (existing) {
+            state.totalPrice -= existing.quantity * existing.price;
+            state.items = state.items.filter(
+              (item) => item._id !== existing._id,
+            );
           }
         }),
-      increaseQuantity: (_id, quantity) =>
+      increaseQuantity: (_id) =>
         set((state) => {
           const item = state.items.find((item) => item._id === _id);
           if (item) {
-            item.quantity += quantity;
-            state.totalPrice += item.price * quantity;
+            item.quantity++;
+            state.totalPrice += item.price;
           }
         }),
-      decreaseQuantity: (_id, quantity) =>
+      decreaseQuantity: (_id) =>
         set((state) => {
-          const item = state.items.find((item) => item._id === _id);
-          if (item) {
-            item.quantity -= quantity;
-            state.totalPrice -= item.price * quantity;
+          const existing = state.items.find((item) => item._id === _id);
+          if (existing) {
+            existing.quantity--;
+            state.totalPrice -= existing.price;
           }
-          if (item?.quantity === 0) {
-            state.items = state.items.filter((item) => item._id !== _id);
+          if (existing?.quantity === 0) {
+            state.items = state.items.filter(
+              (item) => item._id !== existing._id,
+            );
           }
           if (state.totalPrice < 0) state.totalPrice = 0;
+        }),
+      updateQuantity: (id, quantity) =>
+        set((state) => {
+          state.items = state.items.map((item) =>
+            item._id === id ? { ...item, quantity } : item,
+          );
+          state.totalPrice = state.items.reduce(
+            (acc, item) => acc + item.price * item.quantity,
+            0,
+          );
         }),
       clear: () => set(initialState),
     })),

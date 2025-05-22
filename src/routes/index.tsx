@@ -39,7 +39,11 @@ import {
   verifyEmailLoader,
 } from "./loaders/authLoader";
 import { homeAuthLoader } from "./loaders/homeLoader";
-import { productLoader, productsLoader } from "./loaders/productLoader";
+import {
+  cartLoader,
+  productLoader,
+  productsLoader,
+} from "./loaders/productLoader";
 
 export const router = createBrowserRouter([
   {
@@ -82,6 +86,7 @@ export const router = createBrowserRouter([
       {
         path: "cart",
         element: <CartPage />,
+        loader: cartLoader,
       },
     ],
   },

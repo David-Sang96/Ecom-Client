@@ -1,31 +1,52 @@
 import { oneProductQuery } from "@/api/query";
+import CartNotification from "@/components/product/CartNotification";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/lib/formatCurrency";
-import { useCartStore } from "@/store/cartStore";
+import { CartItem, useCartStore } from "@/store/cartStore";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Minus, Plus, ShoppingCart } from "lucide-react";
-import { useLoaderData } from "react-router";
+import { ArrowLeft, Minus, Plus, ShoppingCart } from "lucide-react";
+import { useState } from "react";
+import { useLoaderData, useNavigate } from "react-router";
 
 const ProductDetailPage = () => {
+  const [quantity, setQuantity] = useState(1);
+  const [showNotification, setShowNotification] = useState(false);
+  const [addItem, setAddItem] = useState<CartItem>();
+  const navigate = useNavigate();
   const { productId } = useLoaderData();
   const { data } = useSuspenseQuery(oneProductQuery(productId));
   const addToCart = useCartStore((store) => store.addItem);
-  const increateQuantity = useCartStore((store) => store.increaseQuantity);
-  const decreateQuantity = useCartStore((store) => store.decreaseQuantity);
 
   const categories = data.product.categories
     .map((item: string) => item)
     .join(",");
 
-  const handleIncrease = () => {};
-
-  const handleDecrease = () => {};
-
-  const handleAddToCart = () => {};
+  const handleAddToCart = () => {
+    const item = {
+      _id: data.product._id,
+      description: data.product.description,
+      image: data.product.images[0].url,
+      name: data.product.name,
+      price: data.product.price,
+      quantity,
+    };
+    addToCart(item);
+    setAddItem(item);
+    setShowNotification(true);
+  };
 
   return (
     <section>
+      <Button
+        asChild
+        size={"sm"}
+        variant={"outline"}
+        className="mb-3 cursor-pointer"
+        onClick={() => navigate(-1)}
+      >
+        <ArrowLeft className="size-12" />
+      </Button>
       <div className="grid gap-10 md:grid-cols-2 xl:gap-0">
         <div className="bg-muted relative aspect-square overflow-hidden rounded-lg xl:h-[90%]">
           <img
@@ -58,16 +79,18 @@ const ProductDetailPage = () => {
                   variant={"ghost"}
                   size={"icon"}
                   className="cursor-pointer"
-                  onClick={handleDecrease}
+                  onClick={() =>
+                    setQuantity((prev) => (prev > 1 ? prev - 1 : prev))
+                  }
                 >
                   <Minus className="size-4" />
                 </Button>
-                <span className="w-12 text-center">{1}</span>
+                <span className="w-12 text-center">{quantity}</span>
                 <Button
                   variant={"ghost"}
                   size={"icon"}
                   className="cursor-pointer"
-                  onClick={handleIncrease}
+                  onClick={() => setQuantity((prev) => prev + 1)}
                 >
                   <Plus className="size-4" />
                 </Button>
@@ -75,7 +98,7 @@ const ProductDetailPage = () => {
             </div>
 
             <Button
-              className="flex w-full cursor-pointer items-center gap-2"
+              className="flex w-full cursor-pointer items-center gap-2 py-5"
               onClick={handleAddToCart}
             >
               <ShoppingCart className="size-5" />
@@ -96,6 +119,14 @@ const ProductDetailPage = () => {
           </div>
         </div>
       </div>
+      {showNotification && addItem && (
+        <div>
+          <CartNotification
+            item={addItem}
+            onClose={() => setShowNotification(false)}
+          />
+        </div>
+      )}
     </section>
   );
 };

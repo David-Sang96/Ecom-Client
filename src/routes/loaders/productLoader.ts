@@ -4,7 +4,8 @@ import {
   oneProductQuery,
   queryClient,
 } from "@/api/query";
-import { LoaderFunctionArgs } from "react-router";
+import { useCartStore } from "@/store/cartStore";
+import { LoaderFunctionArgs, redirect } from "react-router";
 import { authCheckLoader } from "./authLoader";
 
 export const productsLoader = async (args: LoaderFunctionArgs) => {
@@ -39,4 +40,12 @@ export const productLoader = async (args: LoaderFunctionArgs) => {
       statusText: "Internal Server Error",
     });
   }
+};
+
+export const cartLoader = () => {
+  const cartItem = useCartStore.getState();
+  if (cartItem.items.length === 0) {
+    return redirect("/products");
+  }
+  return null;
 };

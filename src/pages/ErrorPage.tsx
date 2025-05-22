@@ -24,7 +24,7 @@ const ErrorPage = () => {
   }
 
   return (
-    <section className="container mx-auto flex min-h-screen flex-col justify-between pt-2">
+    <section className="mx-auto flex min-h-screen max-w-[1600px] flex-col justify-between px-2 pt-2">
       {userInfo.id ? (
         <>
           <Navbar />

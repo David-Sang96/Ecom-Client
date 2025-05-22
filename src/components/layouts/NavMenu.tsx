@@ -25,22 +25,22 @@ export function NavMenu() {
                 <li className="row-span-3">
                   <NavigationMenuLink asChild>
                     <Link
-                      className="flex h-full w-full select-none flex-col justify-center rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                      className="from-muted/50 to-muted flex h-full w-full flex-col justify-center rounded-md bg-gradient-to-b p-6 no-underline outline-none select-none focus:shadow-md"
                       to="/me"
                     >
                       <User className="size-8" aria-hidden="true" />
-                      <div className="mb-2 mt-4 text-lg font-medium">
+                      <div className="mt-4 mb-2 text-lg font-medium">
                         My Profile
                       </div>
-                      <p className="text-sm leading-tight text-muted-foreground">
+                      <p className="text-muted-foreground text-sm leading-tight">
                         View and manage your personal information, update your
                         details, and customize your account.
                       </p>
                     </Link>
                   </NavigationMenuLink>
                 </li>
-                <ListItem to="/docs" title="Introduction">
-                  Re-usable components built using Radix UI and Tailwind CSS.
+                <ListItem to="/products" title="Products">
+                  View all the products and choose your favorite things.
                 </ListItem>
                 <ListItem to="/docs/installation" title="Installation">
                   How to install dependencies and structure your app.
@@ -74,13 +74,13 @@ const ListItem = React.forwardRef<
         <Link
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block space-y-1 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none",
+            className,
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <div className="text-sm leading-none font-medium">{title}</div>
+          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
             {children}
           </p>
         </Link>
