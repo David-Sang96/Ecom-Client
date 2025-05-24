@@ -40,10 +40,12 @@ export function NavMenu() {
                   </NavigationMenuLink>
                 </li>
                 <ListItem to="/products" title="Products">
-                  View all the products and choose your favorite things.
+                  Browse our collection and pick your favorite items to add to
+                  your cart.
                 </ListItem>
-                <ListItem to="/docs/installation" title="Installation">
-                  How to install dependencies and structure your app.
+                <ListItem to="/checkout" title="Checkout">
+                  Review your cart and complete your purchase quickly and
+                  securely.
                 </ListItem>
                 <ListItem to="/docs/primitives/typography" title="Typography">
                   Styles for headings, paragraphs, lists...etc

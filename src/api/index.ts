@@ -1,6 +1,5 @@
 import axios from "axios";
 import { toast } from "sonner";
-
 export const API_URL = import.meta.env.VITE_API_URL;
 
 const fetchApi = axios.create({
@@ -21,11 +20,11 @@ fetchApi.interceptors.response.use(
     if (error.response?.status === 401) {
       const currentPath = window.location.pathname;
       window.location.href = `/auth/login?redirectTo=${encodeURIComponent(
-        currentPath
+        currentPath,
       )}`;
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export const fetchAuthApi = axios.create({
@@ -43,7 +42,7 @@ fetchAuthApi.interceptors.response.use(
       toast.error("You have exceeded the rate limit. Please try again later.");
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default fetchApi;

@@ -25,6 +25,8 @@ const CartPage = lazy(() => import("@/pages/product/CartPage"));
 
 import { AuthSkeleton } from "@/components/skeletons/AuthSkeleton";
 import ProductLayout from "@/layouts/ProductLayout";
+import OrdersPage from "@/pages/product/OrdersPage";
+import SuccessPage from "@/pages/product/SuccessPage";
 import {
   forgetPasswordAction,
   loginAction,
@@ -43,6 +45,7 @@ import {
   cartLoader,
   productLoader,
   productsLoader,
+  successLoader,
 } from "./loaders/productLoader";
 
 export const router = createBrowserRouter([
@@ -87,6 +90,20 @@ export const router = createBrowserRouter([
         path: "cart",
         element: <CartPage />,
         loader: cartLoader,
+      },
+      {
+        path: "cancel",
+        loader: () => redirect("/cart"),
+      },
+      {
+        path: "success",
+        element: <SuccessPage />,
+        loader: successLoader,
+      },
+      {
+        path: "orders",
+        element: <OrdersPage />,
+        // loader: orderLoader,
       },
     ],
   },

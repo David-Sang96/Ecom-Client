@@ -2,6 +2,12 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
+export enum Access {
+  none = "none",
+  success = "success",
+  order = "order",
+}
+
 export type CartItem = {
   _id: string;
   name: string;
@@ -14,18 +20,24 @@ export type CartItem = {
 type CartState = {
   items: CartItem[];
   totalPrice: number;
+  access: Access;
 };
 
 type Actions = {
   addItem: (item: CartItem) => void;
   removeItem: (id: string) => void;
+  setAccess: (value: Access) => void;
   increaseQuantity: (id: string, quantity?: number) => void;
   decreaseQuantity: (id: string, quantity?: number) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clear: () => void;
 };
 
-const initialState: CartState = { totalPrice: 0, items: [] };
+const initialState: CartState = {
+  totalPrice: 0,
+  items: [],
+  access: Access.none,
+};
 
 export const useCartStore = create<Actions & CartState>()(
   persist(
@@ -83,7 +95,15 @@ export const useCartStore = create<Actions & CartState>()(
             0,
           );
         }),
-      clear: () => set(initialState),
+      setAccess: (access) =>
+        set((state) => {
+          state.access = access;
+        }),
+      clear: () =>
+        set((state) => {
+          state.items = [];
+          state.totalPrice = 0;
+        }),
     })),
     { name: "cart-state", storage: createJSONStorage(() => sessionStorage) },
   ),

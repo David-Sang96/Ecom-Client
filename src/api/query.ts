@@ -58,3 +58,14 @@ export const oneProductQuery = (id: string) => ({
     return response.data;
   },
 });
+
+export const ordersQuery = (id: string) => ({
+  queryKey: ["products", "order", id],
+  queryFn: async () => {
+    const response = await fetchApi.get(`/product/orders/${id}`);
+    if (!response) {
+      throw new Response("", { status: 404, statusText: "Order not found" });
+    }
+    return response.data;
+  },
+});

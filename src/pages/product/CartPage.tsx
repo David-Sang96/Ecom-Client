@@ -1,3 +1,4 @@
+import StripeCheckOut from "@/components/product/StripeCheckOut";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -27,7 +28,7 @@ const CartPage = () => {
       <h1 className="mb-3 text-2xl font-medium">Your Cart</h1>
       <div className="flex justify-between gap-10 max-lg:flex-col">
         <div className="lg:w-2/3 xl:w-3/4">
-          <ScrollArea className="h-[calc(100vh-21rem)] px-3">
+          <ScrollArea className="h-[calc(100vh-21rem)] pe-3">
             <Table>
               <TableCaption>
                 A list of your recent products in cart.
@@ -125,9 +126,7 @@ const CartPage = () => {
             </div>
             <div className="space-y-3">
               <div>
-                <Button asChild className="w-full cursor-pointer py-5">
-                  <Link to={"/checkout"}>Proceed to Checkout</Link>
-                </Button>
+                <StripeCheckOut />
               </div>
               <div>
                 <Button

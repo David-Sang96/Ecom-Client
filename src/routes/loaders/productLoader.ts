@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import fetchApi from "@/api";
 import {
   infiniteProductQuery,
   oneProductQuery,
+  ordersQuery,
   queryClient,
 } from "@/api/query";
-import { useCartStore } from "@/store/cartStore";
+import useAuthStore from "@/store/authStore";
+import { Access, useCartStore } from "@/store/cartStore";
+import { AxiosError } from "axios";
 import { LoaderFunctionArgs, redirect } from "react-router";
 import { authCheckLoader } from "./authLoader";
 
@@ -42,10 +46,60 @@ export const productLoader = async (args: LoaderFunctionArgs) => {
   }
 };
 
-export const cartLoader = () => {
+export const cartLoader = async (args: LoaderFunctionArgs) => {
+  const authResult = await authCheckLoader(args);
+  if (authResult) return authResult;
+
   const cartItem = useCartStore.getState();
   if (cartItem.items.length === 0) {
     return redirect("/products");
   }
   return null;
+};
+
+export const successLoader = async (args: LoaderFunctionArgs) => {
+  const authResult = await authCheckLoader(args);
+  if (authResult) return authResult;
+  const setAccess = useCartStore.getState().setAccess;
+
+  const { searchParams } = new URL(args.request.url);
+  const sessionId = searchParams.get("session_id");
+  if (!sessionId) return redirect("/");
+
+  try {
+    const { data } = await fetchApi.post("/product/check-stripeId", {
+      sessionId,
+    });
+
+    if (!data.success) return redirect("/");
+
+    if (data.success) {
+      const response = await fetchApi.post("/product/confirm-order", {
+        sessionId,
+      });
+      setAccess(Access.success);
+      return { data: response.data };
+    }
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return { err: error.message };
+    }
+  }
+};
+
+export const orderLoader = async (args: LoaderFunctionArgs) => {
+  const authResult = await authCheckLoader(args);
+  if (authResult) return authResult;
+
+  const userInfo = useAuthStore.getState();
+  try {
+    const userId = userInfo.id;
+    await queryClient.ensureQueryData(ordersQuery(userId!));
+    return null;
+  } catch (error) {
+    throw new Response("Failed to load orders", {
+      status: 500,
+      statusText: "Internal Server Error",
+    });
+  }
 };
