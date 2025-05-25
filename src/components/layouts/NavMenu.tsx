@@ -43,7 +43,7 @@ export function NavMenu() {
                   Browse our collection and pick your favorite items to add to
                   your cart.
                 </ListItem>
-                <ListItem to="/checkout" title="Checkout">
+                <ListItem to="/cart" title="Checkout">
                   Review your cart and complete your purchase quickly and
                   securely.
                 </ListItem>
@@ -53,10 +53,15 @@ export function NavMenu() {
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
-          <NavigationMenuItem>
+          <NavigationMenuItem className="ms-1 space-x-2">
             <Link to="/about">
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 About
+              </NavigationMenuLink>
+            </Link>
+            <Link to="/contact">
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Contact
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>

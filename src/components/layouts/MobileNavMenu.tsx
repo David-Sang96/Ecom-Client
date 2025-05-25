@@ -56,6 +56,12 @@ const MobileNavMenu = () => {
               <Separator />
               <div className="pb-1">
                 <SheetClose asChild>
+                  <Link to={"/contact"}>Contact</Link>
+                </SheetClose>
+              </div>
+              <Separator />
+              <div className="pb-1">
+                <SheetClose asChild>
                   <Link to={"/me"}>My Profile</Link>
                 </SheetClose>
               </div>

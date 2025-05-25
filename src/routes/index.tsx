@@ -25,6 +25,7 @@ const CartPage = lazy(() => import("@/pages/product/CartPage"));
 
 import { AuthSkeleton } from "@/components/skeletons/AuthSkeleton";
 import ProductLayout from "@/layouts/ProductLayout";
+import ContactPage from "@/pages/ContactPage";
 import OrdersPage from "@/pages/product/OrdersPage";
 import SuccessPage from "@/pages/product/SuccessPage";
 import {
@@ -62,6 +63,11 @@ export const router = createBrowserRouter([
       {
         path: "about",
         element: <AboutPage />,
+        loader: authCheckLoader,
+      },
+      {
+        path: "contact",
+        element: <ContactPage />,
         loader: authCheckLoader,
       },
       {

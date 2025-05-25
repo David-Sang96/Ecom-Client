@@ -2,6 +2,7 @@ import { infiniteProductQuery, queryClient } from "@/api/query";
 import ProductCard from "@/components/product/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useScrollRestore } from "@/hooks/useScrollRestore";
 import { useFilterStore } from "@/store/filterStore";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { SearchIcon } from "lucide-react";
@@ -33,6 +34,8 @@ const ProductsPage = () => {
     status,
     refetch,
   } = useInfiniteQuery(infiniteProductQuery(categories));
+
+  useScrollRestore("products-scroll");
 
   const allProducts = data?.pages.flatMap((page) => page.products) ?? [];
   const result = allProducts.filter((product) =>
