@@ -12,10 +12,7 @@ import { AxiosError } from "axios";
 import { LoaderFunctionArgs, redirect } from "react-router";
 import { authCheckLoader } from "./authLoader";
 
-export const productsLoader = async (args: LoaderFunctionArgs) => {
-  const authResult = await authCheckLoader(args);
-  if (authResult) return authResult;
-
+export const productsLoader = async () => {
   try {
     await queryClient.ensureInfiniteQueryData(infiniteProductQuery());
     return null;
@@ -27,12 +24,9 @@ export const productsLoader = async (args: LoaderFunctionArgs) => {
   }
 };
 
-export const productLoader = async (args: LoaderFunctionArgs) => {
-  const authResult = await authCheckLoader(args);
-  if (authResult) return authResult;
-
+export const productLoader = async ({ params }: LoaderFunctionArgs) => {
   try {
-    const id = args.params.productId;
+    const id = params.productId;
     if (!id) {
       throw new Error("No product ID provided");
     }

@@ -15,12 +15,40 @@ import { isRouteErrorResponse, Link, useRouteError } from "react-router";
 const ErrorPage = () => {
   const userInfo = useAuthStore();
   const error = useRouteError();
+  const isAdmin = location.pathname.startsWith("/admin");
 
   let message = "";
   if (isRouteErrorResponse(error)) {
     message = error.statusText || error.data;
   } else if (error instanceof Error) {
     message = error.message;
+  }
+
+  if (isAdmin) {
+    return (
+      <div className="mt-32 flex-1 px-2.5">
+        <Card className="mx-auto max-w-lg">
+          <CardHeader>
+            <div className="flex flex-col items-center justify-center gap-2 pb-4">
+              <div className="border-muted-foreground/70 grid size-15 place-items-center rounded-full border border-dashed">
+                <FaExclamation
+                  className="text-muted-foreground/70 size-6"
+                  aria-hidden="true"
+                />
+              </div>
+              <CardTitle className="text-center">Oops!</CardTitle>
+            </div>
+            <CardDescription className="text-center">{message}</CardDescription>
+          </CardHeader>
+
+          <CardFooter className="flex justify-center">
+            <Button asChild variant={"outline"}>
+              <Link to={"/admin"}>Go back to dashboard</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    );
   }
 
   return (

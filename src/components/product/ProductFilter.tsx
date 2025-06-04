@@ -17,7 +17,7 @@ type ProductFilterProps = {
   previousCategories: string[];
 };
 
-const categoryLists = ["Electronics", "Clothing", "Home & Kitchen", "Books"];
+const categoryLists = ["Electronics", "Clothing", "Kitchen", "Books"];
 
 export default function ProductFilter({
   handleFilter,

@@ -1,3 +1,4 @@
+import PageHeader from "@/components/PageHeader";
 import StripeCheckOut from "@/components/product/StripeCheckOut";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { formatPrice } from "@/lib/formatCurrency";
 import { useCartStore } from "@/store/cartStore";
-import { Trash } from "lucide-react";
+import { Home, Trash } from "lucide-react";
 import { Link } from "react-router";
 
 const CartPage = () => {
@@ -22,10 +23,18 @@ const CartPage = () => {
   const totalPrice = useCartStore((store) => store.totalPrice);
   const updateQuantity = useCartStore((store) => store.updateQuantity);
   const removeItem = useCartStore((store) => store.removeItem);
+  console.log(cartItem);
 
   return (
-    <section className="w-full">
-      <h1 className="mb-3 text-2xl font-medium">Your Cart</h1>
+    <section>
+      <PageHeader
+        title="Shopping Cart"
+        description={`${cartItem.length} ${cartItem.length > 1 ? "items" : "item "} in your cart`}
+        links={[
+          { title: "Home", href: "/", icon: Home },
+          { title: "Shopping Cart", href: "#" },
+        ]}
+      />
       <div className="flex justify-between gap-10 max-lg:flex-col">
         <div className="lg:w-2/3 xl:w-3/4">
           <ScrollArea className="h-[calc(100vh-21rem)] pe-3">

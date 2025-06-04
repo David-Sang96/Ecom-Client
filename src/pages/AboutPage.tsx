@@ -1,68 +1,21 @@
-import { Award, Heart, Truck, Users } from "lucide-react";
+import { meetOurTeamData, standData } from "@/assets/data";
+import PageHeader from "@/components/PageHeader";
+import { Home } from "lucide-react";
 import aboutImg from "../assets/about_img.jpg";
-import emily from "../assets/emily.jpg";
-import mike from "../assets/mike.jpg";
-import sarah from "../assets/sarah.jpg";
-
-const standData = [
-  {
-    title: "Customer First",
-    description:
-      "Every decision we make is guided by what's best for our customers.",
-    icon: Heart,
-  },
-  {
-    title: "Quality Promise",
-    description: "We only sell products we'd be proud to use ourselves.",
-    icon: Award,
-  },
-  {
-    title: "Fast & Reliable",
-    description: "Quick shipping and dependable service you can count on.",
-    icon: Truck,
-  },
-  {
-    title: "Community",
-    description: "Building lasting relationships with customers and partners.",
-    icon: Users,
-  },
-];
-
-const meetOurTeamData = [
-  {
-    title: "Sarah Johnson",
-    description:
-      "Sarah founded Ecom with a vision to make quality products accessible to everyone.",
-    img: sarah,
-    role: "Founder & CEO",
-  },
-  {
-    title: "Mike Chen",
-    description:
-      "Mike ensures every order is processed quickly and accurately, maintaining our high standards.",
-    img: mike,
-    role: "Head of Operations",
-  },
-  {
-    title: "Emily Rodriguez",
-    description:
-      "Emily leads our customer support team, ensuring every customer has an amazing experience.  ",
-    img: emily,
-    role: "Customer Success Manager",
-  },
-];
 
 const AboutPage = () => {
   return (
     <section className="space-y-14">
-      <div className="mx-auto max-w-2xl space-y-2 pb-4 text-center">
-        <h2 className="text-3xl font-medium">About Ecom</h2>
-        <p className="text-muted-foreground leading-6 md:text-lg">
-          We're passionate about bringing you high-quality products at
+      <PageHeader
+        title="About Ecom"
+        description="We're passionate about bringing you high-quality products at
           affordable prices, with exceptional customer service that makes
-          shopping a pleasure.
-        </p>
-      </div>
+          shopping a pleasure."
+        links={[
+          { title: "Home", href: "/", icon: Home },
+          { title: "About Us", href: "#" },
+        ]}
+      />
 
       <div className="grid gap-8 md:grid-cols-2">
         <div className="flex flex-col justify-center">

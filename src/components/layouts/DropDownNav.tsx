@@ -45,14 +45,16 @@ export function DropDownNav() {
               </DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
+          <Link to={"/admin"}>
+            <DropdownMenuItem className="cursor-pointer">
+              Dashboard
+              <DropdownMenuShortcut>
+                <LayoutDashboard aria-hidden="true" />
+              </DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuItem className="cursor-pointer">
             Settings
-            <DropdownMenuShortcut>
-              <LayoutDashboard aria-hidden="true" />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            Dashboard
             <DropdownMenuShortcut>
               <Settings aria-hidden="true" />
             </DropdownMenuShortcut>

@@ -1,9 +1,10 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter, redirect } from "react-router";
+import { createBrowserRouter, Navigate, redirect } from "react-router";
 
 const RootLayout = lazy(() => import("@/layouts/RootLayout"));
 const AuthLayout = lazy(() => import("@/layouts/AuthLayout"));
 
+import ErrorPage from "@/pages/ErrorPage";
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const RegisterPage = lazy(() => import("@/pages/auth/RegisterPage"));
 const LoginPage = lazy(() => import("@/pages/auth/LoginPage"));
@@ -14,7 +15,7 @@ const EmailVerificationPage = lazy(
   () => import("@/pages/auth/EmailVerificationPage"),
 );
 const NewPasswordPage = lazy(() => import("@/pages/auth/NewPasswordPage"));
-const ErrorPage = lazy(() => import("@/pages/ErrorPage"));
+
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
 const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
 const ProductDetailPage = lazy(
@@ -24,7 +25,15 @@ const ProductsPage = lazy(() => import("@/pages/product/ProductsPage"));
 const CartPage = lazy(() => import("@/pages/product/CartPage"));
 
 import { AuthSkeleton } from "@/components/skeletons/AuthSkeleton";
+import { PreviousRouteProvider } from "@/context/RouteContext";
+import AdminLayout from "@/layouts/AdminLayout";
 import ProductLayout from "@/layouts/ProductLayout";
+import DashboardPage from "@/pages/admin/DashboardPage";
+import NewProductPage from "@/pages/admin/NewProductPage";
+import AdminOrdersPage from "@/pages/admin/OrdersPage";
+import AdminProductsPage from "@/pages/admin/ProductsPage";
+import SettingPage from "@/pages/admin/SettingPage";
+import UsersPage from "@/pages/admin/UsersPage";
 import ContactPage from "@/pages/ContactPage";
 import OrdersPage from "@/pages/product/OrdersPage";
 import SuccessPage from "@/pages/product/SuccessPage";
@@ -52,7 +61,12 @@ import {
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    element: (
+      <PreviousRouteProvider>
+        <RootLayout />
+      </PreviousRouteProvider>
+    ),
+    loader: authCheckLoader,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -63,18 +77,15 @@ export const router = createBrowserRouter([
       {
         path: "about",
         element: <AboutPage />,
-        loader: authCheckLoader,
       },
       {
         path: "contact",
         element: <ContactPage />,
-        loader: authCheckLoader,
       },
       {
         path: "me",
         element: <ProfilePage />,
         action: resetPasswordAction,
-        loader: authCheckLoader,
       },
       {
         path: "products",
@@ -144,7 +155,7 @@ export const router = createBrowserRouter([
       {
         path: "logout",
         action: logoutAction,
-        loader: () => redirect("/"),
+        loader: () => <Navigate to={"/login"} replace />,
       },
       {
         path: "forget-password",
@@ -170,6 +181,43 @@ export const router = createBrowserRouter([
         path: "verify-email",
         element: <EmailVerificationPage />,
         loader: verifyEmailLoader,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: (
+      <PreviousRouteProvider>
+        <AdminLayout />
+      </PreviousRouteProvider>
+    ),
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <DashboardPage />,
+      },
+      {
+        path: "orders",
+        element: <AdminOrdersPage />,
+      },
+      {
+        path: "products",
+        element: <AdminProductsPage />,
+        children: [
+          {
+            path: "new",
+            element: <NewProductPage />,
+          },
+        ],
+      },
+      {
+        path: "users",
+        element: <UsersPage />,
+      },
+      {
+        path: "settings",
+        element: <SettingPage />,
       },
     ],
   },

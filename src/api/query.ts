@@ -69,3 +69,35 @@ export const ordersQuery = (id: string) => ({
     return response.data;
   },
 });
+
+export const allProductsQuery = () => ({
+  queryKey: ["products", "all"],
+  queryFn: async () => {
+    const response = await fetchApi.get("/admin/product");
+    return response.data;
+  },
+});
+
+export const allOrdersQuery = () => ({
+  queryKey: ["orders", "all"],
+  queryFn: async () => {
+    const response = await fetchApi.get("/admin/orders");
+    return response.data;
+  },
+});
+
+export const allUsersQuery = () => ({
+  queryKey: ["users", "all"],
+  queryFn: async () => {
+    const response = await fetchApi.get("/admin/users");
+    return response.data;
+  },
+});
+
+export const productSaleQuery = () => ({
+  queryKey: ["product", "sales"],
+  queryFn: async () => {
+    const response = await fetchApi.get("/admin/product-sales");
+    return response.data;
+  },
+});

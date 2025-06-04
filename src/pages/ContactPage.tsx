@@ -1,3 +1,5 @@
+import { frequentlyData } from "@/assets/data";
+import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,41 +13,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Clock, Mail, MapPin, Phone, Send } from "lucide-react";
-
-const frequentlyData = [
-  {
-    title: "What are your shipping options?",
-    description:
-      "We offer free standard shipping on orders over $50. Express shipping is available for $9.99, and overnight shipping for $19.99.",
-  },
-  {
-    title: "What is your return policy?",
-    description:
-      "We accept returns within 30 days of purchase. Items must be in original condition with tags attached.",
-  },
-  {
-    title: "Do you ship internationally?",
-    description:
-      "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by location.",
-  },
-  {
-    title: "How can I track my order?",
-    description:
-      "Once your order ships, you'll receive a tracking number via email. You can also check your order status in your account.",
-  },
-];
+import { Clock, Home, Mail, MapPin, Phone, Send } from "lucide-react";
 
 const ContactPage = () => {
   return (
     <section>
-      <div className="mx-auto mb-4 max-w-2xl space-y-2 pb-4 text-center">
-        <h2 className="text-3xl font-medium">Contact Us</h2>
-        <p className="text-muted-foreground leading-6 md:text-lg">
-          We'd love to hear from you. Send us a message and we'll respond as
-          soon as possible.
-        </p>
-      </div>
+      <PageHeader
+        title="Contact Us"
+        description="We'd love to hear from you. Send us a message and we'll respond as soon as possible."
+        links={[
+          { title: "Home", href: "/", icon: Home },
+          { title: "Contact", href: "#" },
+        ]}
+      />
 
       <div className="mb-10 gap-10 lg:flex">
         <div className="space-y-5 lg:w-2/6">
@@ -58,11 +38,11 @@ const ContactPage = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground ps-3">
-                123 Main Street
+                OFF JALAN SAMPENG, JALAN BAIDURI
                 <br />
-                New York, NY 10001
+                Kuala Lumpur ,55200
                 <br />
-                United States
+                Malaysia
               </p>
             </CardContent>
           </Card>

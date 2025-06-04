@@ -1,11 +1,13 @@
 import { oneProductQuery } from "@/api/query";
+import PageHeader from "@/components/PageHeader";
 import CartNotification from "@/components/product/CartNotification";
+import ImageSlider from "@/components/product/ImageSlider";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/lib/formatCurrency";
 import { CartItem, useCartStore } from "@/store/cartStore";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowLeft, Minus, Plus, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Home, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router";
 
@@ -29,6 +31,7 @@ const ProductDetailPage = () => {
       image: data.product.images[0].url,
       name: data.product.name,
       price: data.product.price,
+      categories: data.product.categories,
       quantity,
     };
     addToCart(item);
@@ -38,6 +41,15 @@ const ProductDetailPage = () => {
 
   return (
     <section>
+      <PageHeader
+        links={[
+          { title: "Home", href: "/", icon: Home },
+          { title: "Products", href: "/products" },
+          { title: categories, href: "/products" },
+          { title: data.product.name, href: "#" },
+        ]}
+      />
+
       <Button
         asChild
         size={"sm"}
@@ -45,17 +57,14 @@ const ProductDetailPage = () => {
         className="mb-3 cursor-pointer"
         onClick={() => navigate(-1)}
       >
-        <ArrowLeft className="size-12" />
+        <div>
+          <ArrowLeft className="size-5" />
+          Back
+        </div>
       </Button>
-      <div className="grid gap-10 md:grid-cols-2 xl:gap-0">
-        <div className="bg-muted relative aspect-square overflow-hidden rounded-lg xl:h-[90%]">
-          <img
-            src={data.product.images[0].url}
-            alt="shirt"
-            loading="lazy"
-            decoding="async"
-            className="size-full object-cover"
-          />
+      <div className="grid gap-10 md:grid-cols-2 md:gap-5">
+        <div>
+          <ImageSlider imageUrls={data.product.images} />
         </div>
 
         <div>
