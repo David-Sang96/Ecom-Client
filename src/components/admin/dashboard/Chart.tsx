@@ -78,7 +78,7 @@ export function Chart() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Order Chart</CardTitle>
+        <CardTitle className="text-xl">Order Chart</CardTitle>
         <CardDescription>
           Showing total users purchasement of last 7 days
         </CardDescription>

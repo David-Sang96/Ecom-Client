@@ -27,12 +27,14 @@ const CartPage = lazy(() => import("@/pages/product/CartPage"));
 import { AuthSkeleton } from "@/components/skeletons/AuthSkeleton";
 import { PreviousRouteProvider } from "@/context/RouteContext";
 import AdminLayout from "@/layouts/AdminLayout";
+import AdminProductLayout from "@/layouts/AdminProductLayout";
 import ProductLayout from "@/layouts/ProductLayout";
 import DashboardPage from "@/pages/admin/DashboardPage";
 import NewProductPage from "@/pages/admin/NewProductPage";
 import AdminOrdersPage from "@/pages/admin/OrdersPage";
 import AdminProductsPage from "@/pages/admin/ProductsPage";
 import SettingPage from "@/pages/admin/SettingPage";
+import UpdateProductPage from "@/pages/admin/UpdateProductPage";
 import UsersPage from "@/pages/admin/UsersPage";
 import ContactPage from "@/pages/ContactPage";
 import OrdersPage from "@/pages/product/OrdersPage";
@@ -45,6 +47,10 @@ import {
   RegisterAction,
   resetPasswordAction,
 } from "./actions/authAction";
+import {
+  adminOneProductLoader,
+  adminProductsLoader,
+} from "./loaders/adminLoader";
 import {
   authCheckLoader,
   newPasswordLoader,
@@ -203,14 +209,25 @@ export const router = createBrowserRouter([
       },
       {
         path: "products",
-        element: <AdminProductsPage />,
+        element: <AdminProductLayout />,
         children: [
+          {
+            index: true,
+            element: <AdminProductsPage />,
+            loader: adminProductsLoader,
+          },
+          {
+            path: ":productId",
+            element: <UpdateProductPage />,
+            loader: adminOneProductLoader,
+          },
           {
             path: "new",
             element: <NewProductPage />,
           },
         ],
       },
+
       {
         path: "users",
         element: <UsersPage />,

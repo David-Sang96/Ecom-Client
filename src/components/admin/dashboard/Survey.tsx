@@ -61,7 +61,9 @@ const Survey = ({ orderData }: SurveyProps) => {
                 </div>
               </div>
               <div>
-                <div>{formatPrice(item.totalPrice)}</div>
+                <div>
+                  {formatPrice(item.totalPrice, { notation: "standard" })}
+                </div>
                 <div className="text-muted-foreground text-sm">Completed</div>
               </div>
             </div>

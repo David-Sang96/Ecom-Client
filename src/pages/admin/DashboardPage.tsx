@@ -47,8 +47,8 @@ const DashboardPage = () => {
       </p>
     );
 
-  const totalProductPrice = productData.products.reduce(
-    (item: number, cur: any) => item + cur.price,
+  const totalRevenue = orderData.orders.reduce(
+    (item: number, cur: any) => item + cur.totalPrice,
     0,
   );
 
@@ -103,7 +103,7 @@ const DashboardPage = () => {
             <DollarSign className="size-4" />
           </div>
           <div className="text-2xl font-medium text-black">
-            {formatPrice(totalProductPrice, { notation: "standard" })}
+            {formatPrice(totalRevenue, { notation: "standard" })}
           </div>
           <div className="text-muted-foreground text-sm">
             +15% from last 7 days
