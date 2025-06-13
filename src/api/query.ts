@@ -81,7 +81,7 @@ export const allProductsQuery = () => ({
 export const allOrdersQuery = () => ({
   queryKey: ["orders", "all"],
   queryFn: async () => {
-    const response = await fetchApi.get("/admin/orders");
+    const response = await fetchApi.get("/admin/order");
     return response.data;
   },
 });
@@ -89,7 +89,7 @@ export const allOrdersQuery = () => ({
 export const allUsersQuery = () => ({
   queryKey: ["users", "all"],
   queryFn: async () => {
-    const response = await fetchApi.get("/admin/users");
+    const response = await fetchApi.get("/admin/user");
     return response.data;
   },
 });
@@ -97,7 +97,7 @@ export const allUsersQuery = () => ({
 export const productSaleQuery = () => ({
   queryKey: ["product", "sales"],
   queryFn: async () => {
-    const response = await fetchApi.get("/admin/product-sales");
+    const response = await fetchApi.get("/admin/product/product-sales");
     return response.data;
   },
 });

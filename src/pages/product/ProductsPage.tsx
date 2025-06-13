@@ -1,13 +1,12 @@
 import { infiniteProductQuery, queryClient } from "@/api/query";
 import PageHeader from "@/components/PageHeader";
 import ProductCard from "@/components/product/ProductCard";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useScrollRestore } from "@/hooks/useScrollRestore";
 import { useFilterStore } from "@/store/filterStore";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Home, SearchIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import ProductFilter from "../../components/product/ProductFilter";
 
@@ -17,6 +16,8 @@ const ProductsPage = () => {
   const previousStoreCat = useFilterStore((store) => store.categories);
   const clear = useFilterStore((store) => store.clear);
   const rawCategory = searchParam.get("category");
+  useScrollRestore("products-scroll");
+  const loadMoreRef = useRef<HTMLDivElement | null>(null); // reference to bottom div
 
   const selectedCategories = previousStoreCat
     ? previousStoreCat
@@ -30,13 +31,10 @@ const ProductsPage = () => {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     status,
     refetch,
   } = useInfiniteQuery(infiniteProductQuery(categories));
-
-  useScrollRestore("products-scroll");
 
   const allProducts = data?.pages.flatMap((page) => page.products) ?? [];
   const result = allProducts.filter((product) =>
@@ -57,6 +55,27 @@ const ProductsPage = () => {
     queryClient.removeQueries({ queryKey: ["products", "infinite"] });
     refetch();
   };
+
+  useEffect(() => {
+    if (!hasNextPage || isFetchingNextPage) return; // stop if no more pages or already loading
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage(); // load next page when div is visible
+        }
+      },
+      {
+        rootMargin: "100px", // trigger before fully visible
+      },
+    );
+
+    const current = loadMoreRef.current;
+    if (current) observer.observe(current); // start watching the div
+
+    return () => {
+      if (current) observer.unobserve(current); // clean up on unmount
+    };
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   useEffect(() => {
     const newParams = new URLSearchParams();
@@ -114,7 +133,15 @@ const ProductsPage = () => {
                   <ProductCard key={product._id} product={product} />
                 ))}
               </div>
+              {/* triggers infinite scroll */}
+              <div ref={loadMoreRef} className="h-10" />
+              {isFetchingNextPage && (
+                <div className="text-muted-foreground mt-4 text-center">
+                  Loading more...
+                </div>
+              )}
 
+              {/* 
               <div className="mt-8 text-center">
                 <Button
                   onClick={() => fetchNextPage()}
@@ -133,7 +160,7 @@ const ProductsPage = () => {
                 {isFetching && !isFetchingNextPage
                   ? "Background updating..."
                   : null}
-              </div>
+              </div> */}
             </>
           ) : (
             <div className="flex w-full items-center justify-center py-20 md:w-3/4">

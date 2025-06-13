@@ -16,14 +16,19 @@ import {
 import { formatPrice } from "@/lib/formatCurrency";
 import { useCartStore } from "@/store/cartStore";
 import { Home, Trash } from "lucide-react";
-import { Link } from "react-router";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router";
 
 const CartPage = () => {
   const cartItem = useCartStore((store) => store.items);
   const totalPrice = useCartStore((store) => store.totalPrice);
   const updateQuantity = useCartStore((store) => store.updateQuantity);
   const removeItem = useCartStore((store) => store.removeItem);
-  console.log(cartItem);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (cartItem.length === 0) navigate("/products");
+  }, [cartItem.length, navigate]);
 
   return (
     <section>
@@ -124,13 +129,17 @@ const CartPage = () => {
                 <p>
                   {totalPrice > 50
                     ? "Free"
-                    : formatPrice(totalPrice, { notation: "standard" })}
+                    : formatPrice(10, { notation: "standard" })}
                 </p>
               </div>
               <Separator className="bg-black dark:bg-white" />
               <div className="flex items-center justify-between">
                 <p>Total</p>
-                <p>{formatPrice(totalPrice, { notation: "standard" })}</p>
+                <p>
+                  {formatPrice(totalPrice > 50 ? totalPrice : totalPrice + 10, {
+                    notation: "standard",
+                  })}
+                </p>
               </div>
             </div>
             <div className="space-y-3">

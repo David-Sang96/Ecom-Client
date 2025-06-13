@@ -37,7 +37,7 @@ const ImageSlider = ({ imageUrls }: ImageSliderProps) => {
               <img
                 src={img.url}
                 alt="product image"
-                className="size-full object-cover"
+                className="mx-auto size-[600px] rounded-md object-cover"
                 decoding="async"
                 loading="lazy"
               />

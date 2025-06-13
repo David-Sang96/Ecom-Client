@@ -13,14 +13,17 @@ import {
 
 type DropzonrProps = {
   className?: string;
+  existingImagesCount?: number;
 };
 
-const Dropzone = ({ className }: DropzonrProps) => {
+const Dropzone = ({ className, existingImagesCount }: DropzonrProps) => {
   const [files, setFiles] = useState<(File & { preview: string })[]>([]);
   const [_, setRejected] = useState<FileRejection[]>([]);
   const { setValue, clearErrors, formState } = useFormContext<{
     images: File[];
   }>();
+
+  const imageCount = existingImagesCount ?? 0;
 
   const onDrop = useCallback(
     (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
@@ -36,7 +39,7 @@ const Dropzone = ({ className }: DropzonrProps) => {
       });
 
       // Check for max total files (existing + newValid)
-      if (files.length + newValidFiles.length > 5) {
+      if (files.length + newValidFiles.length + imageCount > 5) {
         toast.error("You can only upload up to 5 images.");
         return;
       }
@@ -72,7 +75,7 @@ const Dropzone = ({ className }: DropzonrProps) => {
         });
       }
     },
-    [setValue, clearErrors, files],
+    [setValue, clearErrors, files, imageCount],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -82,8 +85,10 @@ const Dropzone = ({ className }: DropzonrProps) => {
     maxFiles: 5,
   });
 
-  const removeFile = (fileName: string) => {
-    const filtered = files.filter((file) => file.name !== fileName);
+  const removeFile = (fileName: string, size: number) => {
+    const filtered = files.filter(
+      (file) => file.name !== fileName && file.size !== size,
+    );
     setFiles(filtered);
     setValue("images", filtered, { shouldValidate: true });
   };
@@ -93,25 +98,25 @@ const Dropzone = ({ className }: DropzonrProps) => {
       <Card>
         <CardHeader>
           <CardTitle>Upload Files</CardTitle>
-          <CardDescription>You can only upload up to 5 images.</CardDescription>
+          <CardDescription>You can only upload up to 5 images</CardDescription>
         </CardHeader>
         <CardContent>
           <div
             {...getRootProps()}
-            className="rounded-md border border-dotted border-neutral-200 p-16 text-center"
+            className="rounded-md border border-dotted border-neutral-200 p-9 text-center md:p-16"
           >
             <input {...getInputProps()} />
             <div className="flex justify-center pb-4">
-              <UploadCloud size={40} className="text-blue-300" />
+              <UploadCloud className="size-8 text-blue-300 md:size-10" />
             </div>
             {isDragActive ? (
               <p>Drop the files here ...</p>
             ) : (
-              <div>
+              <div className="max-sm:text-sm">
                 <span className="font-medium">Click to upload</span> or drag and
                 drop{" "}
                 <span className="text-muted-foreground text-sm">
-                  JPG,PNG,WEPB or JPEF (MAX SIZE - 5MB)
+                  JPG,PNG,WEPB or JPEG (MAX SIZE - 5MB)
                 </span>
               </div>
             )}
@@ -124,7 +129,7 @@ const Dropzone = ({ className }: DropzonrProps) => {
             <X
               size={18}
               className="absolute -top-3 right-0 cursor-pointer rounded-full bg-red-500 text-white"
-              onClick={() => removeFile(file.name)}
+              onClick={() => removeFile(file.name, file.size)}
             />
             <img
               src={file.preview}

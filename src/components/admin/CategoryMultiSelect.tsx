@@ -10,13 +10,24 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
+type Props = {
+  field: {
+    value: string[];
+    onChange: (value: string[]) => void;
+  };
+  fieldState?: {
+    error?: { message?: string };
+  };
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const categories = ["Clothing", "Books", "Electronics", "Kitchen"];
+
 const CategoryMultiSelect = () => {
   const { setValue, getValues } = useFormContext<{ categories: string[] }>();
   const defaultCategories = getValues("categories");
   const [selectedCategories, setSelectedCategories] =
     useState(defaultCategories);
-
-  const categories = ["Clothing", "Books", "Electronics", "Kitchen"];
 
   const handleCategoryChange = (category: string, checked: boolean) => {
     let updatedCategories: string[];

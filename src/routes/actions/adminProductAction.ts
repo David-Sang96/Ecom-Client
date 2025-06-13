@@ -1,6 +1,6 @@
 import fetchApi from "@/api";
 import { AxiosError } from "axios";
-import { ActionFunctionArgs } from "react-router";
+import { ActionFunctionArgs, redirect } from "react-router";
 
 export const updateProductAction = async ({
   request,
@@ -13,17 +13,16 @@ export const updateProductAction = async ({
     name: formData.get("name"),
     description: formData.get("description"),
     price: formData.get("price"),
-    categories: formData.get("categories"),
-    images: formData.get("images"),
+    categories: formData.getAll("categories"),
+    images: formData.getAll("images"),
     countInStock: formData.get("countInStock"),
   };
 
   try {
-    const response = await fetchApi.put(
-      `/admin/product/${productId}`,
-      credentials,
-    );
-    return response.data;
+    await fetchApi.put(`/admin/product/${productId}`, credentials, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return redirect("/admin/products");
   } catch (error) {
     if (error instanceof AxiosError) {
       return error.response?.data || "Something went wrong";

@@ -6,7 +6,9 @@ const AdminProductLayout = () => {
     <section className="mb-10">
       <div className="mb-10 flex items-center justify-between">
         <div className="">
-          <h2 className="text-xl">Products</h2>
+          <Link to={"/admin/products"} className="text-xl">
+            Products
+          </Link>
           <div className="text-muted-foreground text-sm">
             Manage your product catalog
           </div>

@@ -78,7 +78,9 @@ const Survey = ({ orderData }: SurveyProps) => {
       <Card>
         <CardHeader>
           <CardTitle className="text-xl">Top Products</CardTitle>
-          <CardDescription>Best performing products this month</CardDescription>
+          <CardDescription>
+            Best performing products last seven days ago
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {groupedAndSorted.slice(0, 6).map((item, idx) => (

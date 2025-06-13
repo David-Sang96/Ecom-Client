@@ -67,9 +67,31 @@ export const columns: ColumnDef<Payment>[] = [
         </div>
       );
     },
-    cell: ({ row }) => (
-      <div className="text-center capitalize">{row.getValue("status")}</div>
-    ),
+    cell: ({ row }) => {
+      const status = row.getValue("status") as Payment["status"];
+
+      const statusColor = {
+        pending: "bg-yellow-100 text-black",
+        processing: "bg-blue-100 text-blue-800",
+        completed: "bg-green-100 text-green-800",
+        failed: "bg-red-100 text-red-800",
+        shipped: "bg-purple-100 text-purple-800",
+        cancelled: "bg-gray-200 text-gray-800",
+      };
+
+      return (
+        <div className="text-center">
+          <span
+            className={cn(
+              "rounded px-2 py-1 text-xs font-semibold capitalize",
+              statusColor[status],
+            )}
+          >
+            {status}
+          </span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "name",
@@ -112,7 +134,7 @@ export const columns: ColumnDef<Payment>[] = [
           {categories.map((cat, i) => (
             <span
               key={i}
-              className="rounded-md bg-gray-200 px-2 py-1 text-xs dark:bg-gray-700"
+              className="mr-1 rounded-md bg-gray-200 px-2 py-1 text-xs dark:bg-gray-700"
             >
               {cat}
             </span>

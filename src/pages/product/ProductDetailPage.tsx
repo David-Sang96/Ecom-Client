@@ -62,7 +62,7 @@ const ProductDetailPage = () => {
           Back
         </div>
       </Button>
-      <div className="grid gap-10 md:grid-cols-2 md:gap-5">
+      <div className="grid gap-8 md:grid-cols-2 xl:gap-0">
         <div>
           <ImageSlider imageUrls={data.product.images} />
         </div>

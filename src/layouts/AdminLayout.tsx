@@ -33,7 +33,7 @@ const AdminLayout = () => {
         <SidebarInset>
           <div className="pt-2">
             <SidebarTrigger />
-            <section className="px-4 pt-2">
+            <section className="px-1.5 pt-2 md:px-4">
               <Outlet />
             </section>
           </div>
