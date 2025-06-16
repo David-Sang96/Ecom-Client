@@ -31,7 +31,7 @@ const ImageGallery = () => {
   const [open, setOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
   const { data, isLoading } = useQuery({
-    queryKey: ["products", "detail", productId],
+    queryKey: ["products", "details", productId],
     queryFn: async () => {
       const response = await fetchApi.get(`/product/${productId}`);
       return response.data;
@@ -48,7 +48,7 @@ const ImageGallery = () => {
     onSuccess: async (data) => {
       toast.success(data.message);
       await queryClient.invalidateQueries({
-        queryKey: ["products", "detail", productId],
+        queryKey: ["products", "details", productId],
       });
       await queryClient.invalidateQueries({
         queryKey: ["products", "all"],
@@ -65,7 +65,7 @@ const ImageGallery = () => {
     },
   });
 
-  if (isLoading) return <p>Loading....</p>;
+  if (isLoading) return <p className="grid place-items-center">Loading....</p>;
 
   return (
     <Card className="mt-4">
@@ -126,8 +126,7 @@ const ImageGallery = () => {
                         </AlertDialogTitle>
                         <AlertDialogDescription>
                           This action cannot be undone. This will permanently
-                          delete your account and remove your data from our
-                          servers.
+                          delete your image and remove data from our servers.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>

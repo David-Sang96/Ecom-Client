@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { allOrdersQuery, allProductsQuery, allUsersQuery } from "@/api/query";
+import {
+  allProductsQuery,
+  allUsersQuery,
+  lastSevendaysOrdersQuery,
+} from "@/api/query";
 import { Chart } from "@/components/admin/dashboard/Chart";
 import QuickActions from "@/components/admin/dashboard/QuickActions";
 import Survey from "@/components/admin/dashboard/Survey";
@@ -19,7 +23,7 @@ const DashboardPage = () => {
     isLoading: isOrderLoading,
     isError: isOrderError,
     error: orderError,
-  } = useQuery(allOrdersQuery());
+  } = useQuery(lastSevendaysOrdersQuery());
   const {
     data: userData,
     isLoading: isUserLoading,

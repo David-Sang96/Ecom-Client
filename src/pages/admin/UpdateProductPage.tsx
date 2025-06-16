@@ -60,7 +60,7 @@ const UpdateProductPage = () => {
     onSuccess: async (data) => {
       toast.success(data.message);
       await queryClient.invalidateQueries({
-        queryKey: ["products", "detail", data.product._id],
+        queryKey: ["products", "details", data.product._id],
       });
       await queryClient.invalidateQueries({
         queryKey: ["products", "all"],

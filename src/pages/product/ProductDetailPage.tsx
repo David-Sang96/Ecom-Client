@@ -123,7 +123,7 @@ const ProductDetailPage = () => {
               <li>Category: {categories}</li>
               <li>In Stock: {data.product.countInStock > 1 ? "Yes" : "No"} </li>
               <li>Total Stocks: {data.product.countInStock} </li>
-              <li>Free shipping on orders over $50</li>
+              <li>Free shipping on orders over $100</li>
             </ul>
           </div>
         </div>

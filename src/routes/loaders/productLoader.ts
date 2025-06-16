@@ -3,10 +3,8 @@ import fetchApi from "@/api";
 import {
   infiniteProductQuery,
   oneProductQuery,
-  ordersQuery,
   queryClient,
 } from "@/api/query";
-import useAuthStore from "@/store/authStore";
 import { Access, useCartStore } from "@/store/cartStore";
 import { AxiosError } from "axios";
 import { LoaderFunctionArgs, redirect } from "react-router";
@@ -78,22 +76,5 @@ export const successLoader = async (args: LoaderFunctionArgs) => {
     if (error instanceof AxiosError) {
       return { err: error.message };
     }
-  }
-};
-
-export const orderLoader = async (args: LoaderFunctionArgs) => {
-  const authResult = await authCheckLoader(args);
-  if (authResult) return authResult;
-
-  const userInfo = useAuthStore.getState();
-  try {
-    const userId = userInfo.id;
-    await queryClient.ensureQueryData(ordersQuery(userId!));
-    return null;
-  } catch (error) {
-    throw new Response("Failed to load orders", {
-      status: 500,
-      statusText: "Internal Server Error",
-    });
   }
 };

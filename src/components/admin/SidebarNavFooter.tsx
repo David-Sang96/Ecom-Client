@@ -39,7 +39,7 @@ export function SidebarNavFooter() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="size-9 rounded-full border border-green-200">
                 <AvatarImage src={user.image?.url} alt={user.name!} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>

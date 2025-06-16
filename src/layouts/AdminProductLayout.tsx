@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { Link, Outlet } from "react-router";
 
@@ -13,15 +14,12 @@ const AdminProductLayout = () => {
             Manage your product catalog
           </div>
         </div>
-        <div>
-          <Link
-            to={"/admin/products/new"}
-            className="bg-accent-foreground flex items-center gap-2 rounded-sm p-2.5 text-white max-sm:gap-1 max-sm:p-2 dark:text-black"
-          >
+        <Button asChild variant={"outline"}>
+          <Link to={"/admin/products/new"}>
             <PlusIcon className="size-4" />
             <span className="text-sm font-medium">Add Product</span>
           </Link>
-        </div>
+        </Button>
       </div>
       <Outlet />
     </section>

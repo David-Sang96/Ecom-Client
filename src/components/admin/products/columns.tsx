@@ -10,13 +10,6 @@ export type Payment = {
   _id: string;
   name: string;
   price: number;
-  status:
-    | "pending"
-    | "processing"
-    | "completed"
-    | "failed"
-    | "shipped"
-    | "cancelled";
   countInStock: number;
   images: { url: string; public_id: string }[];
   categories: string[];
@@ -47,48 +40,6 @@ export const columns: ColumnDef<Payment>[] = [
               +{images.length - 3}
             </span>
           )}
-        </div>
-      );
-    },
-  },
-
-  {
-    accessorKey: "status",
-    header: ({ column }) => {
-      return (
-        <div className="text-center">
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Status
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => {
-      const status = row.getValue("status") as Payment["status"];
-
-      const statusColor = {
-        pending: "bg-yellow-100 text-black",
-        processing: "bg-blue-100 text-blue-800",
-        completed: "bg-green-100 text-green-800",
-        failed: "bg-red-100 text-red-800",
-        shipped: "bg-purple-100 text-purple-800",
-        cancelled: "bg-gray-200 text-gray-800",
-      };
-
-      return (
-        <div className="text-center">
-          <span
-            className={cn(
-              "rounded px-2 py-1 text-xs font-semibold capitalize",
-              statusColor[status],
-            )}
-          >
-            {status}
-          </span>
         </div>
       );
     },

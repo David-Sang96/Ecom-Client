@@ -127,18 +127,21 @@ const CartPage = () => {
               <div className="flex items-center justify-between">
                 <p>Shipping</p>
                 <p>
-                  {totalPrice > 50
+                  {totalPrice > 100
                     ? "Free"
-                    : formatPrice(10, { notation: "standard" })}
+                    : formatPrice(7.5, { notation: "standard" })}
                 </p>
               </div>
               <Separator className="bg-black dark:bg-white" />
               <div className="flex items-center justify-between">
                 <p>Total</p>
                 <p>
-                  {formatPrice(totalPrice > 50 ? totalPrice : totalPrice + 10, {
-                    notation: "standard",
-                  })}
+                  {formatPrice(
+                    totalPrice > 100 ? totalPrice : totalPrice + 7.5,
+                    {
+                      notation: "standard",
+                    },
+                  )}
                 </p>
               </div>
             </div>
