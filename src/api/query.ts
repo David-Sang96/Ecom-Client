@@ -75,13 +75,7 @@ export const productSaleQuery = () => ({
   },
 });
 
-export const allUsersQuery = () => ({
-  queryKey: ["users", "all"],
-  queryFn: async () => {
-    const response = await fetchApi.get("/admin/user");
-    return response.data;
-  },
-});
+/* ------------------------------------------------------------------------------------ */
 
 export const lastSevendaysOrdersQuery = () => ({
   queryKey: ["orders", "seven"],
@@ -106,6 +100,24 @@ export const adminOneOrderQuery = (orderId: string) => ({
     if (!response) {
       throw new Response("", { status: 404, statusText: "Order not found" });
     }
+    return response.data;
+  },
+});
+
+/* ------------------------------------------------------------------------------------ */
+
+export const allUsersQuery = () => ({
+  queryKey: ["users", "all"],
+  queryFn: async () => {
+    const response = await fetchApi.get("/admin/user");
+    return response.data;
+  },
+});
+
+export const oneUserQuery = (userId: string) => ({
+  queryKey: ["users", "details", userId],
+  queryFn: async () => {
+    const response = await fetchApi.get(`/admin/user/${userId}`);
     return response.data;
   },
 });

@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router";
 const AdminOrderLayout = () => {
   return (
     <section>
-      <div>
+      <div className="px-2">
         <Link to={"/admin/orders"} className="text-xl font-semibold">
           Orders
         </Link>

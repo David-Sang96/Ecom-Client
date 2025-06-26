@@ -1,22 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/formatCurrency";
 import { cn } from "@/lib/utils";
-import { OrderProductType } from "@/types/order";
+import { OrderProductType, OrderStatus, PaymentStatus } from "@/types/order";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import TableActions from "./TableActions";
 
 export type Order = {
   _id: string;
-  status:
-    | "pending"
-    | "processing"
-    | "completed"
-    | "failed"
-    | "shipped"
-    | "cancelled";
+  status: OrderStatus;
   items: [];
-  paymentStatus: "failed" | "paid";
+  paymentStatus: PaymentStatus;
   totalPrice: number;
   userId: { name: string; _id: string };
   createdAt: Date;

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import fetchApi from "@/api";
 import { queryClient } from "@/api/query";
 import { Button } from "@/components/ui/button";
@@ -25,9 +26,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
-import PrintAndDownload from "./PrintAndDownload";
 
-const updateStatusSchema = z.object({
+export const updateStatusSchema = z.object({
   status: z.string({ message: "Status is required" }),
 });
 
@@ -36,7 +36,7 @@ type UpdateStatusFormProps = {
   orderId: string;
 };
 
-const orderStatus: OrderStatus[] = [
+export const orderStatus: OrderStatus[] = [
   "cancelled",
   "completed",
   "failed",
@@ -135,7 +135,6 @@ const UpdateStatusForm = ({ status, orderId }: UpdateStatusFormProps) => {
                   : "  Update Order Status"}
               </Button>
             </div>
-            <PrintAndDownload />
           </form>
         </Form>
       </CardContent>

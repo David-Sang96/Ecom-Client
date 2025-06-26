@@ -5,8 +5,8 @@ import { Link, Outlet } from "react-router";
 const AdminProductLayout = () => {
   return (
     <section className="mb-10">
-      <div className="mb-10 flex items-center justify-between">
-        <div className="">
+      <div className="mb-2 flex items-center justify-between">
+        <div className="px-2">
           <Link to={"/admin/products"} className="text-xl">
             Products
           </Link>

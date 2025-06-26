@@ -6,20 +6,35 @@ import { LoaderFunctionArgs, redirect } from "react-router";
 
 export const authCheckLoader = async ({ request }: LoaderFunctionArgs) => {
   const path = new URL(request.url).pathname;
+  const auth = useAuthStore.getState();
+  const isAuthPage = path.startsWith("/auth");
+
+  // Don't re-check if already banned the user and on an auth page
+  if (auth.isBanned && isAuthPage) {
+    return null;
+  }
+
   try {
     const { data, status } = await fetchAuthApi.get(`${API_URL}/verify-auth`);
     if (data.success && status === 200) {
-      if (path.startsWith("/auth")) {
+      if (data.user.isBanned) {
+        auth.clearAuth();
+        auth.setBanned(true);
+        return redirect("/auth/login");
+      }
+
+      // Logged-in users trying to go to login/register -> block
+      if (isAuthPage) {
         return redirect("/");
       }
     }
     return null;
   } catch (error) {
-    if (!path.startsWith("/auth")) {
+    // Not logged in and trying to go to protected page -> redirect to login
+    if (!isAuthPage) {
       return redirect(`/auth/login?redirectTo=${encodeURIComponent(path)}`);
     }
   }
-  return null;
 };
 
 export const verifyEmailLoader = async ({ request }: LoaderFunctionArgs) => {

@@ -16,12 +16,14 @@ export type OrderStatus =
   | "shipped"
   | "cancelled";
 
+export type PaymentStatus = "failed" | "paid";
+
 export type OrderType = {
   _id: string;
   items: OrderProductType[];
   totalPrice: number;
   stripeSessionId: string;
-  paymentStatus: "failed" | "paid";
+  paymentStatus: PaymentStatus;
   userId: { _id: string; name: string; email: string };
   createdAt: Date;
   status: OrderStatus;
@@ -40,7 +42,7 @@ export type OrderDetailType = {
   }[];
   totalPrice: number;
   stripeSessionId: string;
-  paymentStatus: "failed" | "paid";
+  paymentStatus: PaymentStatus;
   userId: { _id: string; name: string; email: string };
   createdAt: Date;
   updatedAt: Date;

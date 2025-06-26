@@ -5,7 +5,6 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
@@ -47,7 +46,6 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
@@ -56,19 +54,30 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const roles = ["ADMIN", "USER"];
+  const roleValue = table.getColumn("role")?.getFilterValue() as
+    | string
+    | undefined;
+  const roleLabel =
+    roleValue === "ADMIN" ? "Admin" : roleValue === "USER" ? "User" : "All";
+
   const statusOptions = [
-    "pending",
-    "processing",
-    "shipped",
-    "completed",
-    "cancelled",
-    "failed",
+    { label: "Banned", value: "true" },
+    { label: "Active", value: "false" },
   ];
-  const paymentOptions = ["paid", "failed"];
+  const statusValue = table.getColumn("status")?.getFilterValue() as
+    | string
+    | undefined;
+  const statusLabel =
+    statusValue === "true"
+      ? "Banned"
+      : statusValue === "false"
+        ? "Active"
+        : "All";
 
   return (
-    <div>
-      <div className="justify-between py-4 sm:flex sm:items-center">
+    <section>
+      <div className="pb-4 sm:flex sm:items-center sm:justify-between">
         <Input
           placeholder="Filter name..."
           defaultValue={
@@ -79,13 +88,46 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm max-sm:mb-3"
         />
-        <div className="space-y-2.5 space-x-2.5 justify-self-end sm:space-x-3">
+        <div className="space-y-2.5 space-x-2.5 justify-self-end max-sm:w-full sm:space-x-3">
+          {/* Role Filter */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                <>
+                  Role: {roleLabel}
+                  <ChevronDown className="ml-2 h-4 w-4" />
+                </>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuCheckboxItem
+                checked={!table.getColumn("role")?.getFilterValue()}
+                onCheckedChange={() =>
+                  table.getColumn("role")?.setFilterValue(undefined)
+                }
+              >
+                All
+              </DropdownMenuCheckboxItem>
+              {roles.map((role) => (
+                <DropdownMenuCheckboxItem
+                  key={role}
+                  checked={table.getColumn("role")?.getFilterValue() === role}
+                  onCheckedChange={() =>
+                    table.getColumn("role")?.setFilterValue(role)
+                  }
+                >
+                  {role === "ADMIN" ? "Admin" : "User"}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/* Status Filter */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
                 <>
-                  Status: {table.getColumn("status")?.getFilterValue() || "All"}
+                  Status: {statusLabel}
                   <ChevronDown className="ml-2 h-4 w-4" />
                 </>
               </Button>
@@ -99,54 +141,17 @@ export function DataTable<TData, TValue>({
               >
                 All
               </DropdownMenuCheckboxItem>
-              {statusOptions.map((status) => (
+              {statusOptions.map((s) => (
                 <DropdownMenuCheckboxItem
-                  key={status}
+                  key={s.value}
                   checked={
-                    table.getColumn("status")?.getFilterValue() === status
+                    table.getColumn("status")?.getFilterValue() === s.value
                   }
                   onCheckedChange={() =>
-                    table.getColumn("status")?.setFilterValue(status)
+                    table.getColumn("status")?.setFilterValue(s.value)
                   }
                 >
-                  {status}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* Payment Filter */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                <>
-                  Payment:{" "}
-                  {table.getColumn("paymentStatus")?.getFilterValue() || "All"}
-                  <ChevronDown className="ml-2 h-4 w-4" />
-                </>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              <DropdownMenuCheckboxItem
-                checked={!table.getColumn("paymentStatus")?.getFilterValue()}
-                onCheckedChange={() =>
-                  table.getColumn("paymentStatus")?.setFilterValue(undefined)
-                }
-              >
-                All
-              </DropdownMenuCheckboxItem>
-              {paymentOptions.map((status) => (
-                <DropdownMenuCheckboxItem
-                  key={status}
-                  checked={
-                    table.getColumn("paymentStatus")?.getFilterValue() ===
-                    status
-                  }
-                  onCheckedChange={() =>
-                    table.getColumn("paymentStatus")?.setFilterValue(status)
-                  }
-                >
-                  {status}
+                  {s.label}
                 </DropdownMenuCheckboxItem>
               ))}
             </DropdownMenuContent>
@@ -249,6 +254,6 @@ export function DataTable<TData, TValue>({
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

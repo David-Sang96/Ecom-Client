@@ -195,6 +195,7 @@ const OrderDetailsPage = () => {
               </div>
             </CardFooter>
           </Card>
+
           <Card>
             <CardHeader>
               <CardTitle className="text-xl">Order Timeline</CardTitle>

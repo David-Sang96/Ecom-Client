@@ -30,3 +30,22 @@ export const formatDate = (dateString: Date) => {
 
   return formatted;
 };
+
+export const generateInvoiceId = () => {
+  const date = new Date();
+  const yyyyMMdd = date.toISOString().slice(0, 10).replace(/-/g, "");
+  const randomNumber = Math.floor(1000 + Math.random() * 9000);
+  return `INV-${yyyyMMdd}-${randomNumber}`;
+};
+
+export const invoiceDate = (dateString: Date) => {
+  const date = new Date(dateString);
+
+  const formatted = date.toLocaleString("en-US", {
+    month: "short", // Jun
+    day: "numeric", // 4
+    year: "numeric", // 2025
+  });
+
+  return formatted;
+};

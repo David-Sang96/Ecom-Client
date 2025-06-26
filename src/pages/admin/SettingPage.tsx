@@ -1,5 +1,7 @@
+import SettingTabs from "@/components/admin/settings/SettingTabs";
+
 const SettingPage = () => {
-  return <div>SettingPage</div>;
+  return <SettingTabs />;
 };
 
 export default SettingPage;

@@ -25,11 +25,13 @@ export type UserInfo = {
   accountStatus: AccountStatus | null;
   updatedAt: Date | null;
   status: Status;
+  isBanned?: boolean;
 };
 
 type Actions = {
   setAuth: (value: UserInfo) => void;
   clearAuth: () => void;
+  setBanned: (value: boolean) => void;
 };
 
 const initialState: UserInfo = {
@@ -42,6 +44,7 @@ const initialState: UserInfo = {
   isEmailVerified: null,
   updatedAt: null,
   status: Status.none,
+  isBanned: false,
 };
 
 const useAuthStore = create<UserInfo & Actions>()(
@@ -58,6 +61,7 @@ const useAuthStore = create<UserInfo & Actions>()(
         image,
         isEmailVerified,
         updatedAt,
+        isBanned,
       }) =>
         set((state) => {
           state.id = id;
@@ -69,9 +73,11 @@ const useAuthStore = create<UserInfo & Actions>()(
           state.isEmailVerified = isEmailVerified;
           state.updatedAt = updatedAt;
           state.status = status;
+          state.isBanned = isBanned;
         }),
 
       clearAuth: () => set(initialState),
+      setBanned: (val) => set({ isBanned: val }),
     })),
     {
       name: "auth-credentails",

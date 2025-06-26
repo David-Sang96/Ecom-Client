@@ -18,6 +18,7 @@ export function DropDownNav() {
   const { image, name } = useAuthStore();
   const firstLetters = name
     ?.split(" ")
+    .slice(0, 3)
     .map((item) => item.slice(0, 1).toUpperCase())
     .join("");
 
