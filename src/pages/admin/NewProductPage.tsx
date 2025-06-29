@@ -2,6 +2,7 @@ import fetchApi from "@/api";
 import { queryClient } from "@/api/query";
 import { categories } from "@/components/admin/CategoryMultiSelect";
 import Dropzone from "@/components/admin/Dropzone";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -32,12 +33,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { LoaderCircle } from "lucide-react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 
 const NewProductPage = () => {
+  const [subCategories, setSubCategories] = useState<string[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof createProductSchema>>({
     resolver: zodResolver(createProductSchema),
@@ -50,6 +54,19 @@ const NewProductPage = () => {
       images: [],
     },
   });
+
+  const addSubCategory = () => {
+    const value = inputRef.current?.value.trim();
+    if (value) {
+      const capitalize = value.slice(0, 1).toUpperCase() + value.slice(1);
+      if (subCategories.includes(capitalize)) {
+        inputRef.current!.value = "";
+        return;
+      }
+      setSubCategories((cat) => [...cat, capitalize]);
+      inputRef.current!.value = "";
+    }
+  };
 
   const createProductMutation = useMutation({
     mutationFn: async (formData: FormData) => {
@@ -84,6 +101,7 @@ const NewProductPage = () => {
     formData.append("categories", values.categories);
     formData.append("countInStock", values.countInStock.toString());
 
+    subCategories.forEach((cat) => formData.append("subCategories", cat));
     values.images.forEach((file) => formData.append("images", file));
     createProductMutation.mutate(formData);
   };
@@ -204,6 +222,43 @@ const NewProductPage = () => {
                       </FormItem>
                     )}
                   />
+                  <FormItem className="w-full">
+                    <FormLabel className="pb-1.5">Sub Categories</FormLabel>
+                    <FormControl>
+                      <Input
+                        ref={inputRef}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            addSubCategory();
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    {subCategories.length === 0 && (
+                      <div className="text-sm text-red-400">
+                        Sub categories is required
+                      </div>
+                    )}
+                  </FormItem>
+
+                  <div className="flex flex-wrap gap-1">
+                    {subCategories.map((item) => (
+                      <Badge key={item} variant={"secondary"}>
+                        {item}
+                        <button
+                          onClick={() =>
+                            setSubCategories((prev) =>
+                              prev.filter((cat) => cat !== item),
+                            )
+                          }
+                          className="ml-1 cursor-pointer text-xs hover:text-red-500"
+                        >
+                          ×
+                        </button>
+                      </Badge>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
               <FormField

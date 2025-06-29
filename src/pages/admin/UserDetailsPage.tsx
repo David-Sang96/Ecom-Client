@@ -15,6 +15,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   Ban,
   Calendar,
+  Check,
   Edit,
   Key,
   Mail,
@@ -22,6 +23,7 @@ import {
   ShieldCheck,
   Timer,
   UserCheck,
+  X,
 } from "lucide-react";
 import { Link, useLoaderData } from "react-router";
 
@@ -29,7 +31,6 @@ const UserDetailsPage = () => {
   const { userId } = useLoaderData();
   const { data } = useSuspenseQuery(oneUserQuery(userId));
   const userData = data.user;
-  console.log(userData);
 
   const firstLetters = userData.name
     ?.split(" ")
@@ -147,7 +148,7 @@ const UserDetailsPage = () => {
                 </Badge>
               </div>
               <div className="flex justify-between text-[15px]">
-                <div>Account Status </div>
+                <div>Account State</div>
                 <Badge
                   className={cn(
                     "mt-1",
@@ -158,6 +159,22 @@ const UserDetailsPage = () => {
                 >
                   {userData.ban.isBanned ? <Ban /> : <UserCheck />}
                   {userData.ban.isBanned ? "BANNED" : "ACTIVE"}
+                </Badge>
+              </div>
+              <div className="flex justify-between text-[15px]">
+                <div>Activation Status</div>
+                <Badge
+                  className={cn(
+                    "mt-1",
+                    userData.deActivate.isDeActivated
+                      ? "bg-red-500 text-white"
+                      : "bg-green-100 text-green-800",
+                  )}
+                >
+                  {userData.deActivate.isDeActivated ? <X /> : <Check />}
+                  {userData.deActivate.isDeActivated
+                    ? "Account is Deactivated"
+                    : "Account is Active"}
                 </Badge>
               </div>
               <div className="flex justify-between text-[15px]">
@@ -193,7 +210,9 @@ const UserDetailsPage = () => {
             <div>
               <div className="font-semibold">Password Changed</div>
               <div className="text-muted-foreground">
-                {formatDate(userData.passwordChangedAt)}
+                {userData.passwordChagedAt
+                  ? formatDate(userData.passwordChangedAt)
+                  : "User haven't change password yet"}
               </div>
             </div>
           </div>

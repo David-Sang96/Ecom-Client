@@ -2,7 +2,6 @@ import {
   ChevronsUpDown,
   House,
   LayoutDashboard,
-  LogOut,
   UserRound,
 } from "lucide-react";
 
@@ -25,6 +24,7 @@ import {
 } from "@/components/ui/sidebar";
 import useAuthStore from "@/store/authStore";
 import { Link } from "react-router";
+import LogoutBtn from "../auth/LogoutBtn";
 
 export function SidebarNavFooter() {
   const { isMobile } = useSidebar();
@@ -94,9 +94,8 @@ export function SidebarNavFooter() {
               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
+            <DropdownMenuItem asChild>
+              <LogoutBtn isNav />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -65,6 +65,7 @@ const userUpdateFormSchema = z.object({
 });
 
 const UserEditPage = () => {
+  const setNameAndEmail = useAuthStore((store) => store.setNameAndEmail);
   const { userId } = useLoaderData();
   const { data } = useSuspenseQuery(oneUserQuery(userId));
   const navigate = useNavigate();
@@ -96,6 +97,7 @@ const UserEditPage = () => {
       return response.data;
     },
     onSuccess: async (data) => {
+      setNameAndEmail(data.user.name, data.user.email);
       toast.success(data.message);
       navigate("/admin/users");
       await queryClient.invalidateQueries({
@@ -106,6 +108,7 @@ const UserEditPage = () => {
       });
     },
     onError: (error) => {
+      console.log(error);
       if (error instanceof AxiosError) {
         const errorMessage =
           error.response?.data.message || "something went wrong";
@@ -244,8 +247,8 @@ const UserEditPage = () => {
           <div className="mt-8 mb-4 flex justify-end">
             <Button
               className="cursor-pointer max-sm:w-full"
-              variant={"outline"}
-              disabled={updateUserMutation.isPending}
+              variant={form.formState.isDirty ? "outline" : "secondary"}
+              disabled={updateUserMutation.isPending || !form.formState.isDirty}
             >
               {updateUserMutation.isPending ? (
                 <LoaderCircle className="animate-spin" aria-hidden="true" />

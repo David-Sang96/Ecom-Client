@@ -75,8 +75,8 @@ const CartDrawer = () => {
             <div className="px-2">
               <ScrollArea className="my-4 h-[calc(100vh-21rem)]">
                 {cartItems.map((item) => (
-                  <>
-                    <div className="flex gap-3 pt-2 pb-4" key={item._id}>
+                  <div key={item._id}>
+                    <div className="flex gap-3 pt-2 pb-4">
                       <div className="w-1/4">
                         <img
                           src={item.image}
@@ -134,7 +134,7 @@ const CartDrawer = () => {
                       </div>
                     </div>
                     <Separator className="bg-black dark:bg-white" />
-                  </>
+                  </div>
                 ))}
               </ScrollArea>
             </div>

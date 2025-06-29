@@ -77,7 +77,11 @@ const SettingTabs = () => {
           </TabsContent>
         </Tabs>
         <div className="mt-6 flex justify-end">
-          <Button variant={"outline"} className="cursor-pointer">
+          <Button
+            variant={"outline"}
+            className="cursor-pointer"
+            onClick={() => window.location.reload()}
+          >
             Save All Settings
           </Button>
         </div>

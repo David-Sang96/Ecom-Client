@@ -123,7 +123,9 @@ const UpdateStatusForm = ({ status, orderId }: UpdateStatusFormProps) => {
               <Button
                 className="w-full cursor-pointer"
                 variant={"outline"}
-                disabled={updateOrderMutation.isPending}
+                disabled={
+                  updateOrderMutation.isPending || !form.formState.isDirty
+                }
               >
                 {updateOrderMutation.isPending ? (
                   <LoaderCircle className="animate-spin" aria-hidden="true" />

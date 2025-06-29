@@ -43,6 +43,8 @@ import UserEditPage from "@/pages/admin/UserEditPage";
 import UsersPage from "@/pages/admin/UsersPage";
 import VoucherInvoicePage from "@/pages/admin/VoucherInvoicePage";
 import ContactPage from "@/pages/ContactPage";
+import FavoritePage from "@/pages/product/FavoritePage";
+import OrderPage from "@/pages/product/OrderPage";
 import OrdersPage from "@/pages/product/OrdersPage";
 import SuccessPage from "@/pages/product/SuccessPage";
 import {
@@ -65,6 +67,7 @@ import {
 } from "./loaders/adminLoader";
 import {
   authCheckLoader,
+  authenticationLoader,
   newPasswordLoader,
   verifyEmailLoader,
 } from "./loaders/authLoader";
@@ -121,6 +124,14 @@ export const router = createBrowserRouter([
                 element: <ProductDetailPage />,
                 loader: productLoader,
               },
+              {
+                path: "favorite",
+                element: <FavoritePage />,
+              },
+              {
+                path: "order",
+                element: <OrderPage />,
+              },
             ],
           },
           {
@@ -165,7 +176,7 @@ export const router = createBrowserRouter([
               </Suspense>
             ),
             action: RegisterAction,
-            loader: authCheckLoader,
+            loader: authenticationLoader,
           },
           {
             path: "login",
@@ -175,7 +186,7 @@ export const router = createBrowserRouter([
               </Suspense>
             ),
             action: loginAction,
-            loader: authCheckLoader,
+            loader: authenticationLoader,
           },
           {
             path: "logout",

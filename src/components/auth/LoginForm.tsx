@@ -144,7 +144,7 @@ export function LoginForm({
                 )}
               />
 
-              <div className="space-y-2 pt-3">
+              <div className="space-y-3 pt-3">
                 <Button
                   type="submit"
                   className="w-full cursor-pointer disabled:cursor-not-allowed"

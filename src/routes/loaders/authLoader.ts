@@ -63,3 +63,11 @@ export const newPasswordLoader = () => {
   }
   return null;
 };
+
+export const authenticationLoader = () => {
+  const auth = useAuthStore.getState();
+  if (auth.id && auth.email && auth.name) {
+    return redirect("/");
+  }
+  return null;
+};

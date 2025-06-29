@@ -2,7 +2,6 @@ import PageHeader from "@/components/PageHeader";
 import StripeCheckOut from "@/components/product/StripeCheckOut";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
   Table,
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import { formatPrice } from "@/lib/formatCurrency";
 import { useCartStore } from "@/store/cartStore";
+import { decode } from "html-entities";
 import { Home, Trash } from "lucide-react";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router";
@@ -40,81 +40,81 @@ const CartPage = () => {
           { title: "Shopping Cart", href: "#" },
         ]}
       />
-      <div className="flex justify-between gap-10 max-lg:flex-col">
+      <div className="space-y-10 lg:flex lg:justify-between lg:gap-10">
         <div className="lg:w-2/3 xl:w-3/4">
-          <ScrollArea className="h-[calc(100vh-21rem)] pe-3">
-            <Table>
-              <TableCaption>
-                A list of your recent products in cart.
-              </TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[380px] text-base md:w-[500px] xl:w-[600px]">
-                    Product
-                  </TableHead>
-                  <TableHead className="text-right text-base">Price</TableHead>
-                  <TableHead className="text-right text-base">
-                    Quantity
-                  </TableHead>
-                  <TableHead className="text-right text-base">Total</TableHead>
-                </TableRow>
-              </TableHeader>
+          <Table>
+            <TableCaption className="pb-4">
+              A list of your recent products in cart.
+            </TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-base md:w-[500px] xl:w-[600px]">
+                  Product
+                </TableHead>
+                <TableHead className="text-right text-base">Price</TableHead>
+                <TableHead className="text-right text-base">Sizes</TableHead>
+                <TableHead className="text-right text-base">Quantity</TableHead>
+                <TableHead className="text-right text-base">Total</TableHead>
+              </TableRow>
+            </TableHeader>
 
-              <TableBody>
-                {cartItem.map((item) => (
-                  <TableRow key={item._id}>
-                    <TableCell className="font-medium">
-                      <div className="flex items-center gap-3">
-                        <div className="size-13">
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="size-full rounded-md object-cover"
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        </div>
-                        <div className="">
-                          <p className="font-medium md:text-base">
-                            {item.name}
-                          </p>
-                          <div
-                            className="flex cursor-pointer items-center gap-0.5 font-medium text-red-500"
-                            onClick={() => removeItem(item._id)}
-                          >
-                            <Trash className="size-3.5" />
-                            <p>Remove</p>
-                          </div>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">{item.price}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end">
-                        <Input
-                          type="number"
-                          min="1"
-                          value={item.quantity}
-                          onChange={(e) =>
-                            updateQuantity(
-                              item._id,
-                              Number.parseInt(e.target.value),
-                            )
-                          }
-                          className="w-16 text-center"
+            <TableBody>
+              {cartItem.map((item) => (
+                <TableRow key={item._id}>
+                  <TableCell className="font-medium">
+                    <div className="flex items-center gap-3">
+                      <div className="size-13">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="size-full rounded-md object-cover"
+                          loading="lazy"
+                          decoding="async"
                         />
                       </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {formatPrice(item.price * item.quantity, {
-                        notation: "standard",
-                      })}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </ScrollArea>
+                      <div className="">
+                        <p className="max-w-[200px] truncate font-medium lg:max-w-full">
+                          {decode(item.name)}
+                        </p>
+                        <div
+                          className="flex cursor-pointer items-center gap-0.5 font-medium text-red-500"
+                          onClick={() => removeItem(item._id)}
+                        >
+                          <Trash className="size-3.5" />
+                          <p>Remove</p>
+                        </div>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right">{item.price}</TableCell>
+                  <TableCell className="text-right">
+                    {item.sizes.join(", ").toUpperCase()}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end">
+                      <Input
+                        type="number"
+                        min="1"
+                        value={item.quantity}
+                        onChange={(e) =>
+                          updateQuantity(
+                            item._id,
+                            Number.parseInt(e.target.value),
+                          )
+                        }
+                        className="w-16 text-center"
+                      />
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {formatPrice(item.price * item.quantity, {
+                      notation: "standard",
+                    })}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
         <div className="lg:w-1/3 xl:w-1/4">
           <div className="space-y-3 rounded-md border border-black p-6 dark:border-white">

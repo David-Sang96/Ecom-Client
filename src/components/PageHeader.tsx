@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils";
+import { decode } from "html-entities";
 import { ElementType, ReactNode } from "react";
+import { Link } from "react-router";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "./ui/breadcrumb";
@@ -35,10 +36,10 @@ const PageHeader = ({
             <Breadcrumb>
               <BreadcrumbList>
                 {links.map((item, idx) => (
-                  <>
-                    <BreadcrumbItem key={idx}>
-                      <BreadcrumbLink
-                        href={item.href}
+                  <div key={idx}>
+                    <BreadcrumbItem>
+                      <Link
+                        to={item.href}
                         className={cn(
                           "flex items-center gap-2 text-[15px]",
                           idx === links.length - 1 &&
@@ -46,11 +47,11 @@ const PageHeader = ({
                         )}
                       >
                         {item.icon && <item.icon className="size-5" />}
-                        {item.title}
-                      </BreadcrumbLink>
+                        {decode(item.title)}
+                      </Link>
+                      {idx !== links.length - 1 && <BreadcrumbSeparator />}
                     </BreadcrumbItem>
-                    {idx !== links.length - 1 && <BreadcrumbSeparator />}
-                  </>
+                  </div>
                 ))}
               </BreadcrumbList>
             </Breadcrumb>

@@ -26,12 +26,14 @@ export type UserInfo = {
   updatedAt: Date | null;
   status: Status;
   isBanned?: boolean;
+  isDeactivated?: boolean;
 };
 
 type Actions = {
   setAuth: (value: UserInfo) => void;
   clearAuth: () => void;
   setBanned: (value: boolean) => void;
+  setNameAndEmail: (name: string, email: string) => void;
 };
 
 const initialState: UserInfo = {
@@ -45,6 +47,7 @@ const initialState: UserInfo = {
   updatedAt: null,
   status: Status.none,
   isBanned: false,
+  isDeactivated: false,
 };
 
 const useAuthStore = create<UserInfo & Actions>()(
@@ -62,6 +65,7 @@ const useAuthStore = create<UserInfo & Actions>()(
         isEmailVerified,
         updatedAt,
         isBanned,
+        isDeactivated,
       }) =>
         set((state) => {
           state.id = id;
@@ -74,10 +78,12 @@ const useAuthStore = create<UserInfo & Actions>()(
           state.updatedAt = updatedAt;
           state.status = status;
           state.isBanned = isBanned;
+          state.isDeactivated = isDeactivated;
         }),
 
       clearAuth: () => set(initialState),
       setBanned: (val) => set({ isBanned: val }),
+      setNameAndEmail: (name, email) => set({ name, email }),
     })),
     {
       name: "auth-credentails",

@@ -39,6 +39,7 @@ export type OrderDetailType = {
     price: number;
     quantity: number;
     images: [string];
+    sizes: [string];
   }[];
   totalPrice: number;
   stripeSessionId: string;

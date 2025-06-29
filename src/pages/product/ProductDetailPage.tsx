@@ -2,27 +2,68 @@ import { oneProductQuery } from "@/api/query";
 import PageHeader from "@/components/PageHeader";
 import CartNotification from "@/components/product/CartNotification";
 import ImageSlider from "@/components/product/ImageSlider";
+import { type Option, MultiSelect } from "@/components/product/MultiSelect";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice } from "@/lib/formatCurrency";
 import { CartItem, useCartStore } from "@/store/cartStore";
+import { useFavoriteStore } from "@/store/favoriteStore";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowLeft, Home, Minus, Plus, ShoppingCart } from "lucide-react";
+import { decode } from "html-entities";
+import {
+  ArrowLeft,
+  Heart,
+  Home,
+  Minus,
+  Plus,
+  ShoppingCart,
+} from "lucide-react";
 import { useState } from "react";
+import { RiHeartFill } from "react-icons/ri";
 import { useLoaderData, useNavigate } from "react-router";
+
+const options: Option[] = [
+  { label: "XS", value: "xs", category: "Sizes:" },
+  { label: "SM", value: "sm", category: "Sizes:" },
+  { label: "MD", value: "md", category: "Sizes:" },
+  { label: "LG", value: "lg", category: "Sizes:" },
+  { label: "XL", value: "xl", category: "Sizes:" },
+  { label: "2XL", value: "2xl", category: "Sizes:" },
+  { label: "3XL", value: "3xl", category: "Sizes:" },
+  { label: "4XK", value: "4xl", category: "Sizes:" },
+];
 
 const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [showNotification, setShowNotification] = useState(false);
   const [addItem, setAddItem] = useState<CartItem>();
+  const [selectedSubCategories, setSelectedSubCategories] = useState<Option[]>(
+    [],
+  );
+  const item = useFavoriteStore((store) => store.items);
+  const addOrRemove = useFavoriteStore((store) => store.addOrRemove);
   const navigate = useNavigate();
   const { productId } = useLoaderData();
   const { data } = useSuspenseQuery(oneProductQuery(productId));
   const addToCart = useCartStore((store) => store.addItem);
 
+  const isFav = item.find((item) => item._id === data.product._id);
+
   const categories = data.product.categories
     .map((item: string) => item)
     .join(",");
+
+  const handleAddtoFav = () => {
+    addOrRemove({
+      _id: data.product._id,
+      categories: data.product.categories,
+      description: data.product.description,
+      image: data.product.images[0].url,
+      name: data.product.name,
+      price: data.product.price,
+      subCategories: data.product.subCategories,
+    });
+  };
 
   const handleAddToCart = () => {
     const item = {
@@ -33,6 +74,7 @@ const ProductDetailPage = () => {
       price: data.product.price,
       categories: data.product.categories,
       quantity,
+      subCategories: selectedSubCategories.map((item) => item.value),
     };
     addToCart(item);
     setAddItem(item);
@@ -69,9 +111,7 @@ const ProductDetailPage = () => {
 
         <div>
           <div className="mb-10">
-            <h2 className="text-2xl font-bold md:text-3xl">
-              {data.product.name}
-            </h2>
+            <h2 className="text-2xl font-bold">{decode(data.product.name)}</h2>
             <p className="mt-2 text-xl font-semibold md:text-2xl">
               {formatPrice(data.product.price, { notation: "standard" })}
             </p>
@@ -81,27 +121,67 @@ const ProductDetailPage = () => {
           </div>
 
           <div className="mb-7 space-y-5 md:mb-10">
-            <div className="flex items-center gap-4">
-              <span>Quantity :</span>
-              <div className="flex items-center rounded-md border-2">
+            <div className="max-w-xs">
+              <MultiSelect
+                options={options}
+                selected={selectedSubCategories}
+                onChange={setSelectedSubCategories}
+                placeholder="Select sizes..."
+              />
+              <div className="mt-4 text-start">
+                {!!selectedSubCategories.length && (
+                  <h3 className="mb-2 font-semibold">Selected sizes:</h3>
+                )}
+                <ul className="list-inside list-disc">
+                  {selectedSubCategories.map((item) => (
+                    <li key={item.value} className="text-sm">
+                      {item.label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="items-center justify-between lg:flex">
+              <div className="flex items-center gap-4">
+                <span>Quantity :</span>
+                <div className="flex items-center rounded-md border-2">
+                  <Button
+                    variant={"ghost"}
+                    size={"icon"}
+                    className="cursor-pointer"
+                    onClick={() =>
+                      setQuantity((prev) => (prev > 1 ? prev - 1 : prev))
+                    }
+                  >
+                    <Minus className="size-4" />
+                  </Button>
+                  <span className="w-12 text-center">{quantity}</span>
+                  <Button
+                    variant={"ghost"}
+                    size={"icon"}
+                    className="cursor-pointer"
+                    onClick={() => setQuantity((prev) => prev + 1)}
+                  >
+                    <Plus className="size-4" />
+                  </Button>
+                </div>
+              </div>
+              <div className="mt-4 lg:mt-0">
                 <Button
-                  variant={"ghost"}
-                  size={"icon"}
-                  className="cursor-pointer"
-                  onClick={() =>
-                    setQuantity((prev) => (prev > 1 ? prev - 1 : prev))
-                  }
+                  variant={"outline"}
+                  className="w-full cursor-pointer"
+                  onClick={handleAddtoFav}
                 >
-                  <Minus className="size-4" />
-                </Button>
-                <span className="w-12 text-center">{quantity}</span>
-                <Button
-                  variant={"ghost"}
-                  size={"icon"}
-                  className="cursor-pointer"
-                  onClick={() => setQuantity((prev) => prev + 1)}
-                >
-                  <Plus className="size-4" />
+                  {isFav ? (
+                    <RiHeartFill
+                      aria-hidden="true"
+                      className="size-4 text-red-500"
+                    />
+                  ) : (
+                    <Heart aria-hidden="true" className="size-4" />
+                  )}
+                  {isFav ? "Remove from Favorite" : "Add to Favorite"}
                 </Button>
               </div>
             </div>

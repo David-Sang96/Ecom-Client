@@ -16,7 +16,9 @@ export const RegisterAction = async ({ request }: ActionFunctionArgs) => {
     return response.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      return { message: error.response?.data || "something went wrong" };
+      return {
+        message: error.response?.data.message || "something went wrong",
+      };
     }
     return { message: "Something went wrong" };
   }
@@ -43,6 +45,7 @@ export const loginAction = async ({ request }: ActionFunctionArgs) => {
       updatedAt: response.data.user.updatedAt,
       role: response.data.user.role,
       status: Status.none,
+      isDeactivated: response.data.isDeactivated,
     };
 
     auth.setAuth(userInfo);

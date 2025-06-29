@@ -16,6 +16,7 @@ export type CartItem = {
   quantity: number;
   categories: [string];
   image: string;
+  subCategories: string[];
 };
 
 type CartState = {
@@ -106,6 +107,6 @@ export const useCartStore = create<Actions & CartState>()(
           state.totalPrice = 0;
         }),
     })),
-    { name: "cart-state", storage: createJSONStorage(() => sessionStorage) },
+    { name: "cart-state", storage: createJSONStorage(() => localStorage) },
   ),
 );

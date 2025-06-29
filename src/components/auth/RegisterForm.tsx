@@ -146,16 +146,16 @@ export function RegisterForm({
                   </FormItem>
                 )}
               />
-              <div className="text-sm flex justify-between items-center ">
+              <div className="flex items-center justify-between text-sm">
                 <AdminDialog />
                 <Link
                   to={"/auth/forget-password"}
-                  className=" underline-offset-4 hover:underline"
+                  className="underline-offset-4 hover:underline"
                 >
                   Forgot your password?
                 </Link>
               </div>
-              <div className=" space-y-3">
+              <div className="space-y-3">
                 <Button
                   type="submit"
                   className="w-full cursor-pointer disabled:cursor-not-allowed"

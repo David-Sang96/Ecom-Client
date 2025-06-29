@@ -2,6 +2,7 @@
 import fetchApi from "@/api";
 import { queryClient } from "@/api/query";
 import { Button } from "@/components/ui/button";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +18,7 @@ import { Ban, Edit, Eye, MoreHorizontal, Shield, Trash } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 import { toast } from "sonner";
+import DeleteUserModal from "./DeleteUserModal";
 
 const TableActions = ({ user }: { user: any }) => {
   const [open, setOpen] = useState(false);
@@ -111,13 +113,17 @@ const TableActions = ({ user }: { user: any }) => {
               <Ban />
               {user.ban.isBanned ? "Unban user" : "Ban user"}
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer text-red-500 focus:text-red-500">
+            <DropdownMenuItem
+              className="cursor-pointer text-red-500 focus:text-red-500"
+              onClick={() => setOpen(true)}
+            >
               <Trash className="text-red-500" />
               Delete user
             </DropdownMenuItem>
           </>
         )}
       </DropdownMenuContent>
+      <DeleteUserModal open={open} setOpen={setOpen} userId={user._id} />
     </DropdownMenu>
   );
 };

@@ -35,6 +35,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import ActivateAccount from "./ActivateAccount";
 import ProfileImageUploader from "./ProfileImageUploader";
 import { TooltipHover } from "./Tooltip";
 
@@ -114,10 +115,10 @@ const ProfileDialog = () => {
         </TooltipHover>
       </DialogTrigger>
       <DialogContent className="top-[40%] max-md:p-3 max-md:py-4">
-        <Tabs defaultValue="account">
+        <Tabs defaultValue="personal-info">
           <TabsList>
-            <TabsTrigger value="account" className="cursor-pointer">
-              Account
+            <TabsTrigger value="personal-info" className="cursor-pointer">
+              Personal Info
             </TabsTrigger>
             <TabsTrigger value="password" className="cursor-pointer">
               Password
@@ -128,15 +129,18 @@ const ProfileDialog = () => {
             >
               Profile Image
             </TabsTrigger>
+            <TabsTrigger value="activation" className="cursor-pointer">
+              Activation Status
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="account">
+          <TabsContent value="personal-info">
             <Card>
               <CardHeader>
-                <CardTitle>Account</CardTitle>
+                <CardTitle>Personal Info</CardTitle>
                 <CardDescription>
-                  Make changes to your account here. Click update when you're
-                  done.
+                  Make changes to your Personal Info here. Click update when
+                  you're done.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -299,6 +303,9 @@ const ProfileDialog = () => {
           </TabsContent>
           <TabsContent value="profile-image-uploader">
             <ProfileImageUploader setOpen={setOpen} />
+          </TabsContent>
+          <TabsContent value="activation">
+            <ActivateAccount />
           </TabsContent>
         </Tabs>
       </DialogContent>

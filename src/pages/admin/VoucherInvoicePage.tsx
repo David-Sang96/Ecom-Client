@@ -128,6 +128,7 @@ const VoucherInvoicePage = () => {
                   <TableHead className="w-[100px]">Image</TableHead>
                   <TableHead>Product</TableHead>
                   <TableHead>Price</TableHead>
+                  <TableHead>Size</TableHead>
                   <TableHead className="text-center">Quantity</TableHead>
                   <TableHead className="text-right">Total</TableHead>
                 </TableRow>
@@ -135,7 +136,7 @@ const VoucherInvoicePage = () => {
               <TableBody>
                 {items.map((item) => (
                   <TableRow key={item.productId}>
-                    {item?.images?.map((img) => (
+                    {item?.images?.slice(0, 1).map((img) => (
                       <TableCell className="font-medium" key={img}>
                         <img
                           src={img}
@@ -148,8 +149,8 @@ const VoucherInvoicePage = () => {
                     ))}
                     <TableCell className="max-w-[180px] sm:max-w-[220px] md:max-w-[280px] lg:max-w-[360px] xl:max-w-[500px] 2xl:max-w-full">
                       <div className="flex flex-col">
-                        <p className="font-medium">{item.name}</p>
-                        <p className="text-muted-foreground truncate">
+                        <p className="truncate font-medium">{item.name}</p>
+                        <p className="text-muted-foreground max-w-[150px] truncate md:max-w-[400px] lg:max-w-[500px]">
                           {item.description}
                         </p>
                         <div className="mt-1 flex flex-wrap gap-1">
@@ -165,8 +166,8 @@ const VoucherInvoicePage = () => {
                         </div>
                       </div>
                     </TableCell>
-
                     <TableCell>{formatPrice(item.price)}</TableCell>
+                    <TableCell>{item.sizes.join(", ")}</TableCell>
                     <TableCell className="text-center">
                       {item.quantity}
                     </TableCell>

@@ -1,5 +1,5 @@
 import useAuthStore from "@/store/authStore";
-import { LayoutDashboard, Settings, UserRound } from "lucide-react";
+import { Box, Heart, LayoutDashboard, UserRound } from "lucide-react";
 import { Link } from "react-router";
 import LogoutBtn from "../auth/LogoutBtn";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -15,7 +15,7 @@ import {
 } from "../ui/dropdown-menu";
 
 export function DropDownNav() {
-  const { image, name } = useAuthStore();
+  const { image, name, role } = useAuthStore();
   const firstLetters = name
     ?.split(" ")
     .slice(0, 3)
@@ -46,20 +46,32 @@ export function DropDownNav() {
               </DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
-          <Link to={"/admin"}>
+          {role === "ADMIN" && (
+            <Link to={"/admin"}>
+              <DropdownMenuItem className="cursor-pointer">
+                Dashboard
+                <DropdownMenuShortcut>
+                  <LayoutDashboard aria-hidden="true" />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </Link>
+          )}
+          <Link to={"/products/favorite"}>
             <DropdownMenuItem className="cursor-pointer">
-              Dashboard
+              Favorite
               <DropdownMenuShortcut>
-                <LayoutDashboard aria-hidden="true" />
+                <Heart aria-hidden="true" />
               </DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
-          <DropdownMenuItem className="cursor-pointer">
-            Settings
-            <DropdownMenuShortcut>
-              <Settings aria-hidden="true" />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <Link to={"/products/order"}>
+            <DropdownMenuItem className="cursor-pointer">
+              Order
+              <DropdownMenuShortcut>
+                <Box aria-hidden="true" />
+              </DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>

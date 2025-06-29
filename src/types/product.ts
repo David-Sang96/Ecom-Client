@@ -10,6 +10,7 @@ export type ProductType = {
   price: number;
   images: ProductImageType[];
   categories: string[];
+  subCategories: string[];
   countInStock: number;
   ownderId: string;
   createdAT: Date;

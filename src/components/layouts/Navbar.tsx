@@ -8,7 +8,7 @@ import { NavMenu } from "./NavMenu";
 
 const Navbar = () => {
   return (
-    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 flex w-full items-center justify-between border-b px-4 py-4 backdrop-blur">
+    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 flex w-full items-center justify-between border-b py-4 backdrop-blur md:px-4">
       <div className="flex gap-10">
         <div className="hidden items-center gap-1 lg:flex">
           <Globe size={26} aria-hidden={true} />

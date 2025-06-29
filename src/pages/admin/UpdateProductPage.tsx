@@ -213,7 +213,9 @@ const UpdateProductPage = () => {
               <Button
                 className="w-[200px] cursor-pointer"
                 type="submit"
-                disabled={updateProductMutation.isPending}
+                disabled={
+                  updateProductMutation.isPending || !form.formState.isDirty
+                }
               >
                 {updateProductMutation.isPending && (
                   <LoaderCircle className="animate-spin" aria-hidden="true" />

@@ -74,7 +74,7 @@ export const successLoader = async (args: LoaderFunctionArgs) => {
     }
   } catch (error) {
     if (error instanceof AxiosError) {
-      return { err: error.message };
+      return { err: error.response?.data.message };
     }
   }
 };

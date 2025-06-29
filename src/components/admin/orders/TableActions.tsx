@@ -186,7 +186,9 @@ const TableActions = ({ order }: { order: any }) => {
                 <Button
                   className="cursor-pointer"
                   variant={"outline"}
-                  disabled={updateOrderMutation.isPending}
+                  disabled={
+                    updateOrderMutation.isPending || !form.formState.isDirty
+                  }
                 >
                   {updateOrderMutation.isPending ? (
                     <LoaderCircle className="animate-spin" aria-hidden="true" />

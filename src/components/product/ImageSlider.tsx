@@ -7,13 +7,18 @@ import {
 } from "../ui/carousel";
 
 interface ImageSliderProps {
-  imageUrls: { url: string; public_id: string }[];
+  imageUrls?: { url: string; public_id: string }[];
+  productImages?: string[];
 }
 
-const ImageSlider = ({ imageUrls }: ImageSliderProps) => {
+const ImageSlider = ({ imageUrls, productImages }: ImageSliderProps) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+
+  const images: string[] = imageUrls
+    ? imageUrls.map((img) => img.url)
+    : productImages || [];
 
   useEffect(() => {
     if (!api) {
@@ -32,12 +37,12 @@ const ImageSlider = ({ imageUrls }: ImageSliderProps) => {
     <div className="mx-auto max-w-2xl">
       <Carousel setApi={setApi} className="w-full">
         <CarouselContent>
-          {imageUrls.map((img, index) => (
+          {images.map((url, index) => (
             <CarouselItem key={index}>
               <img
-                src={img.url}
-                alt="product image"
-                className="mx-auto size-[600px] rounded-md object-cover"
+                src={url}
+                alt={`product image ${index + 1}`}
+                className="mx-auto size-full rounded-md object-cover sm:size-[600px]"
                 decoding="async"
                 loading="lazy"
               />

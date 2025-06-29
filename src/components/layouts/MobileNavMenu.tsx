@@ -48,6 +48,32 @@ const MobileNavMenu = () => {
                 </SheetClose>
               </div>
               <Separator />
+
+              <div className="pb-1">
+                <SheetClose asChild>
+                  <Link to={"/me"}>My Profile</Link>
+                </SheetClose>
+              </div>
+              <Separator />
+
+              <div className="pb-1">
+                <SheetClose asChild>
+                  <Link to={"/products/favorite"}>My Favorites</Link>
+                </SheetClose>
+              </div>
+              <Separator />
+              <div className="pb-1">
+                <SheetClose asChild>
+                  <Link to={"/products/order"}>My Orders</Link>
+                </SheetClose>
+              </div>
+              <Separator />
+              <div className="pb-1">
+                <SheetClose asChild>
+                  <Link to={"/products"}>Products</Link>
+                </SheetClose>
+              </div>
+              <Separator />
               <div className="pb-1">
                 <SheetClose asChild>
                   <Link to={"/about"}>About</Link>
@@ -59,13 +85,6 @@ const MobileNavMenu = () => {
                   <Link to={"/contact"}>Contact</Link>
                 </SheetClose>
               </div>
-              <Separator />
-              <div className="pb-1">
-                <SheetClose asChild>
-                  <Link to={"/me"}>My Profile</Link>
-                </SheetClose>
-              </div>
-              <Separator />
             </div>
           </ScrollArea>
         </SheetContent>

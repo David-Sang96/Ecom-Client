@@ -57,6 +57,7 @@ export const createProductSchema = z.object({
     .int("Stock must be a whole number")
     .min(1, "Must have at least 1 stock"),
 
+  // subCategories: z.array(z.string()).min(1, "Select at least one sub category"),
   images: z
     .array(
       z

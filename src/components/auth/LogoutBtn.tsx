@@ -22,14 +22,14 @@ const LogoutBtn = ({ isNav = true }: LogoutBtnProp) => {
     <fetcher.Form
       method="POST"
       action={`/auth/logout?redirectTo=${encodeURIComponent(
-        window.location.pathname
+        window.location.pathname,
       )}`}
-      className="px-2 py-1 cursor-pointer"
+      className="cursor-pointer px-2 py-1"
     >
       {isNav ? (
         <button
           type="submit"
-          className="cursor-pointer text-sm flex justify-between w-full"
+          className="flex w-full cursor-pointer justify-between text-sm"
         >
           Logout
           <LogOut aria-hidden="true" size={18} />

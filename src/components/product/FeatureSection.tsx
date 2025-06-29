@@ -16,7 +16,7 @@ const FeatureSection = () => {
 
   return (
     <section className="py-12 md:px-12 md:py-24">
-      <div className="space-y-8 text-center">
+      <div className="space-y-12 text-center">
         <div className="space-y-3">
           <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
             Featured Products
@@ -25,7 +25,7 @@ const FeatureSection = () => {
             Check out our most popular items this season.
           </p>
         </div>
-        <div className="grid gap-2 sm:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:gap-6">
+        <div className="grid gap-2 sm:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 xl:gap-6">
           {data.products.slice(0, 3).map((product: ProductType) => (
             <ProductCard product={product} key={product._id} />
           ))}

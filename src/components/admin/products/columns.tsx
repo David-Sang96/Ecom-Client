@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
+import { decode } from "html-entities";
 import { ArrowUpDown } from "lucide-react";
 import TableActions from "./TableActions";
 
@@ -15,28 +16,45 @@ export type Payment = {
   categories: string[];
 };
 
-export const columns: ColumnDef<Payment>[] = [
+type ColumsProp = {
+  setSliderOpen: (value: boolean) => void;
+  setSliderImages: (images: string[]) => void;
+};
+
+export const getColumns = ({
+  setSliderOpen,
+  setSliderImages,
+}: ColumsProp): ColumnDef<Payment>[] => [
   {
     accessorKey: "images",
     header: "Images",
     cell: ({ row }) => {
-      const images = row.getValue("images") as { url: string }[];
+      const images = row.getValue("images") as {
+        url: string;
+        public_id: string;
+      }[];
+      const handleHover = () => {
+        setSliderImages(images.map((img) => img.url));
+        setSliderOpen(true);
+      };
+
       return (
         <div className="flex gap-2">
           {images.slice(0, 3).map((img, i) => (
             <img
-              key={i}
+              key={img.public_id}
               src={img.url}
-              alt={`img-${i}`}
+              alt={`img-${img.public_id}`}
               className={`h-10 w-10 rounded object-cover ${
-                i > 0 ? "hidden md:block" : ""
+                i > 0 && "hidden md:block"
               }`}
               loading="lazy"
               decoding="async"
+              onMouseEnter={handleHover}
             />
           ))}
           {images.length > 3 && (
-            <span className="hidden text-sm text-gray-500 md:block">
+            <span className="mt-6 hidden text-sm text-gray-500 md:block">
               +{images.length - 3}
             </span>
           )}
@@ -60,7 +78,9 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center">{row.getValue("name")}</div>
+      <div className="max-w-[200px] truncate text-center md:max-w-[100px] lg:max-w-full">
+        {decode(row.getValue("name"))}
+      </div>
     ),
   },
   {

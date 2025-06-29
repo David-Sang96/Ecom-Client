@@ -13,8 +13,15 @@ import useAuthStore from "@/store/authStore";
 import { Home, LayoutDashboard } from "lucide-react";
 
 const ProfilePage = () => {
-  const { email, name, role, accountStatus, isEmailVerified, image } =
-    useAuthStore();
+  const {
+    email,
+    name,
+    role,
+    accountStatus,
+    isEmailVerified,
+    image,
+    isDeactivated,
+  } = useAuthStore();
   const firstLetters = name
     ?.split(" ")
     .map((item) => item.slice(0, 1).toUpperCase())
@@ -49,7 +56,7 @@ const ProfilePage = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center gap-4">
-              <div className="flex w-[80px] items-center justify-center gap-1 rounded-md bg-green-200 p-1 text-xs md:text-sm">
+              <div className="flex items-center justify-center gap-1 rounded-md bg-green-200 p-1 text-xs md:text-sm">
                 <p className="flex size-4 items-center justify-center rounded-full bg-green-600 text-white">
                   <IoCheckmarkSharp />
                 </p>
@@ -57,12 +64,23 @@ const ProfilePage = () => {
                   {isEmailVerified && "Verified"}
                 </p>
               </div>
-              <div className="flex w-[80px] items-center justify-center gap-1 rounded-md bg-green-200 p-1 text-xs md:text-sm">
+              <div className="flex items-center justify-center gap-1 rounded-md bg-green-200 p-1 text-xs md:text-sm">
                 <p className="flex size-4 items-center justify-center rounded-full bg-green-600 text-white">
                   <IoCheckmarkSharp />
                 </p>
                 <p className="text-xs font-medium text-green-800">
-                  {accountStatus}
+                  {accountStatus!.slice(0, 1) +
+                    accountStatus!.slice(1).toLowerCase()}
+                </p>
+              </div>
+              <div className="flex items-center justify-center gap-1 rounded-md bg-green-200 p-1 text-xs md:text-sm">
+                <p className="flex size-4 items-center justify-center rounded-full bg-green-600 text-white">
+                  <IoCheckmarkSharp />
+                </p>
+                <p className="text-xs font-medium text-green-800">
+                  {isDeactivated
+                    ? "Account is Deactivated"
+                    : "Account is Active"}
                 </p>
               </div>
             </div>
