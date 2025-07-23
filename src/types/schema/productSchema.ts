@@ -59,7 +59,7 @@ export const createProductSchema = z.object({
 
   subCategories: z
     .array(z.string())
-    .min(1, "Please select at least one category"),
+    .min(2, "Please select at least two category"),
 
   images: z
     .array(
