@@ -21,17 +21,7 @@ import {
 import { useState } from "react";
 import { RiHeartFill } from "react-icons/ri";
 import { useLoaderData, useNavigate } from "react-router";
-
-const options: Option[] = [
-  { label: "XS", value: "xs", category: "Sizes:" },
-  { label: "SM", value: "sm", category: "Sizes:" },
-  { label: "MD", value: "md", category: "Sizes:" },
-  { label: "LG", value: "lg", category: "Sizes:" },
-  { label: "XL", value: "xl", category: "Sizes:" },
-  { label: "2XL", value: "2xl", category: "Sizes:" },
-  { label: "3XL", value: "3xl", category: "Sizes:" },
-  { label: "4XK", value: "4xl", category: "Sizes:" },
-];
+import { toast } from "sonner";
 
 const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -40,20 +30,36 @@ const ProductDetailPage = () => {
   const [selectedSubCategories, setSelectedSubCategories] = useState<Option[]>(
     [],
   );
-  const item = useFavoriteStore((store) => store.items);
+  const favoriteItems = useFavoriteStore((store) => store.favoriteItems);
   const addOrRemove = useFavoriteStore((store) => store.addOrRemove);
   const navigate = useNavigate();
   const { productId } = useLoaderData();
   const { data } = useSuspenseQuery(oneProductQuery(productId));
   const addToCart = useCartStore((store) => store.addItem);
 
-  const isFav = item.find((item) => item._id === data.product._id);
+  const isFav = favoriteItems.find((item) => item._id === data.product._id);
+
+  const subCategoryItems: Option[] = data.product.subCategories.map(
+    (cat: string) => ({
+      label: cat.toUpperCase(),
+      value: cat,
+      category: `${data.product.categories}:`,
+    }),
+  );
 
   const categories = data.product.categories
     .map((item: string) => item)
     .join(",");
 
   const handleAddtoFav = () => {
+    if (!isFav)
+      toast.success("Added to favorite", {
+        description: `${data.product.name} has been added to your favorite`,
+      });
+    else
+      toast.error("Remove from favorite", {
+        description: `${data.product.name} has been removed from your favorite`,
+      });
     addOrRemove({
       _id: data.product._id,
       categories: data.product.categories,
@@ -66,6 +72,8 @@ const ProductDetailPage = () => {
   };
 
   const handleAddToCart = () => {
+    if (selectedSubCategories.length === 0)
+      return toast.error("Select at least one sub-categories");
     const item = {
       _id: data.product._id,
       description: data.product.description,
@@ -123,14 +131,16 @@ const ProductDetailPage = () => {
           <div className="mb-7 space-y-5 md:mb-10">
             <div className="max-w-xs">
               <MultiSelect
-                options={options}
+                options={subCategoryItems}
                 selected={selectedSubCategories}
                 onChange={setSelectedSubCategories}
-                placeholder="Select sizes..."
+                placeholder="Select Sub-categories..."
               />
               <div className="mt-4 text-start">
                 {!!selectedSubCategories.length && (
-                  <h3 className="mb-2 font-semibold">Selected sizes:</h3>
+                  <h3 className="mb-2 font-semibold">
+                    Selected Sub-categories:
+                  </h3>
                 )}
                 <ul className="list-inside list-disc">
                   {selectedSubCategories.map((item) => (

@@ -44,7 +44,7 @@ import UsersPage from "@/pages/admin/UsersPage";
 import VoucherInvoicePage from "@/pages/admin/VoucherInvoicePage";
 import ContactPage from "@/pages/ContactPage";
 import FavoritePage from "@/pages/product/FavoritePage";
-import OrderPage from "@/pages/product/OrderPage";
+import OrderDetailPage from "@/pages/product/OrderDetailPage";
 import OrdersPage from "@/pages/product/OrdersPage";
 import SuccessPage from "@/pages/product/SuccessPage";
 import {
@@ -67,15 +67,15 @@ import {
 } from "./loaders/adminLoader";
 import {
   authCheckLoader,
-  authenticationLoader,
   newPasswordLoader,
   verifyEmailLoader,
 } from "./loaders/authLoader";
-import { homeAuthLoader } from "./loaders/homeLoader";
+import { homeLoader } from "./loaders/homeLoader";
 import {
   cartLoader,
+  orderDetailLoader,
+  orderLoader,
   productLoader,
-  productsLoader,
   successLoader,
 } from "./loaders/productLoader";
 
@@ -95,7 +95,7 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <HomePage />,
-            loader: homeAuthLoader,
+            loader: homeLoader,
           },
           {
             path: "about",
@@ -117,7 +117,7 @@ export const router = createBrowserRouter([
               {
                 index: true,
                 element: <ProductsPage />,
-                loader: productsLoader,
+                // loader: productsLoader,
               },
               {
                 path: ":productId",
@@ -127,10 +127,6 @@ export const router = createBrowserRouter([
               {
                 path: "favorite",
                 element: <FavoritePage />,
-              },
-              {
-                path: "order",
-                element: <OrderPage />,
               },
             ],
           },
@@ -151,7 +147,12 @@ export const router = createBrowserRouter([
           {
             path: "orders",
             element: <OrdersPage />,
-            // loader: orderLoader,
+            loader: orderLoader,
+          },
+          {
+            path: "orders/:orderId",
+            element: <OrderDetailPage />,
+            loader: orderDetailLoader,
           },
         ],
       },
@@ -176,7 +177,7 @@ export const router = createBrowserRouter([
               </Suspense>
             ),
             action: RegisterAction,
-            loader: authenticationLoader,
+            loader: authCheckLoader,
           },
           {
             path: "login",
@@ -186,7 +187,7 @@ export const router = createBrowserRouter([
               </Suspense>
             ),
             action: loginAction,
-            loader: authenticationLoader,
+            loader: authCheckLoader,
           },
           {
             path: "logout",
@@ -201,7 +202,7 @@ export const router = createBrowserRouter([
               </Suspense>
             ),
             action: forgetPasswordAction,
-            loader: authCheckLoader,
+            // loader: authCheckLoader,
           },
           {
             path: "new-password",
@@ -241,7 +242,6 @@ export const router = createBrowserRouter([
           {
             path: "orders",
             element: <AdminOrderLayout />,
-
             children: [
               {
                 index: true,

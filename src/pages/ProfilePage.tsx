@@ -17,7 +17,7 @@ const ProfilePage = () => {
     email,
     name,
     role,
-    accountStatus,
+    accStatus,
     isEmailVerified,
     image,
     isDeactivated,
@@ -27,6 +27,16 @@ const ProfilePage = () => {
     .map((item) => item.slice(0, 1).toUpperCase())
     .join("");
   const previouUrl = useRouteContext();
+
+  // console.log(
+  //   email,
+  //   name,
+  //   role,
+  //   accountStatus,
+  //   isEmailVerified,
+  //   image,
+  //   isDeactivated,
+  // );
 
   return (
     <section>
@@ -69,8 +79,7 @@ const ProfilePage = () => {
                   <IoCheckmarkSharp />
                 </p>
                 <p className="text-xs font-medium text-green-800">
-                  {accountStatus!.slice(0, 1) +
-                    accountStatus!.slice(1).toLowerCase()}
+                  {accStatus!.slice(0, 1) + accStatus!.slice(1).toLowerCase()}
                 </p>
               </div>
               <div className="flex items-center justify-center gap-1 rounded-md bg-green-200 p-1 text-xs md:text-sm">

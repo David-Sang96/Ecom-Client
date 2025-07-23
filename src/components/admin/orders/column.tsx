@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/formatCurrency";
 import { cn } from "@/lib/utils";
@@ -123,14 +124,9 @@ export const columns: ColumnDef<Order>[] = [
       };
       return (
         <div className="text-center">
-          <span
-            className={cn(
-              "rounded px-2 py-1 text-xs font-semibold capitalize",
-              statusColor[status],
-            )}
-          >
+          <Badge className={cn("capitalize", statusColor[status])}>
             {status}
-          </span>
+          </Badge>
         </div>
       );
     },
@@ -165,14 +161,9 @@ export const columns: ColumnDef<Order>[] = [
 
       return (
         <div className="text-center">
-          <span
-            className={cn(
-              "rounded px-2 py-1 text-xs font-semibold capitalize",
-              statusColor[status],
-            )}
-          >
+          <Badge className={cn("capitalize", statusColor[status])}>
             {status}
-          </span>
+          </Badge>
         </div>
       );
     },

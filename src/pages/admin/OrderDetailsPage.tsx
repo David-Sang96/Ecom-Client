@@ -118,7 +118,7 @@ const OrderDetailsPage = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[100px]">Image</TableHead>
+                    <TableHead>Image</TableHead>
                     <TableHead>Product</TableHead>
                     <TableHead>Price</TableHead>
                     <TableHead>Size</TableHead>
@@ -136,7 +136,7 @@ const OrderDetailsPage = () => {
                             alt={item.name}
                             loading="lazy"
                             decoding="async"
-                            className="size-full rounded-md object-cover"
+                            className="size-14 rounded-md object-cover"
                             onMouseEnter={() => {
                               setCurrentImages(item.images);
                               setSliderOpen(true);
@@ -167,7 +167,7 @@ const OrderDetailsPage = () => {
                       </TableCell>
 
                       <TableCell>{formatPrice(item.price)}</TableCell>
-                      <TableCell>{item.sizes.join(", ")}</TableCell>
+                      <TableCell>{item.subCategories.join(", ")}</TableCell>
                       <TableCell className="text-center">
                         {item.quantity}
                       </TableCell>
@@ -340,7 +340,7 @@ const OrderDetailsPage = () => {
                 <div className="text-muted-foreground truncate">
                   Transaction ID:{" "}
                   <span className="overflow-hidden text-sm">
-                    {stripeSessionId.split("_")[2]}
+                    {stripeSessionId.split("_")[2].slice(0, 40)}
                   </span>
                 </div>
               </div>

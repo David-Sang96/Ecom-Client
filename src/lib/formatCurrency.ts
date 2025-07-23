@@ -31,6 +31,18 @@ export const formatDate = (dateString: Date) => {
   return formatted;
 };
 
+export const formatDateOnly = (dateString: Date) => {
+  const date = new Date(dateString);
+
+  const formatted = date.toLocaleString("en-US", {
+    month: "short", // Jun
+    day: "numeric", // 4
+    year: "numeric", // 2025
+  });
+
+  return formatted;
+};
+
 export const generateInvoiceId = () => {
   const date = new Date();
   const yyyyMMdd = date.toISOString().slice(0, 10).replace(/-/g, "");

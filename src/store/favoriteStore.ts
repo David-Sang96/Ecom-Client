@@ -2,8 +2,8 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
-type FavoriteItem = {
-  _id: string;
+export type FavoriteItem = {
+  _id?: string;
   name: string;
   price: number;
   description: string;
@@ -13,7 +13,7 @@ type FavoriteItem = {
 };
 
 type Favorite = {
-  items: FavoriteItem[];
+  favoriteItems: FavoriteItem[];
 };
 
 type Actions = {
@@ -24,7 +24,7 @@ type Actions = {
 };
 
 const initialState: Favorite = {
-  items: [],
+  favoriteItems: [],
 };
 
 export const useFavoriteStore = create<Favorite & Actions>()(
@@ -33,24 +33,26 @@ export const useFavoriteStore = create<Favorite & Actions>()(
       ...initialState,
       addOrRemove: (favItem) =>
         set((state) => {
-          const isExisting = state.items.find(
+          const isExisting = state.favoriteItems.find(
             (item) => item._id === favItem._id,
           );
           if (isExisting) {
-            state.items = state.items.filter(
+            state.favoriteItems = state.favoriteItems.filter(
               (item) => item._id !== isExisting._id,
             );
           } else {
-            state.items.push(favItem);
+            state.favoriteItems.push(favItem);
           }
         }),
       addItem: (newItem) =>
         set((state) => {
-          state.items.push(newItem);
+          state.favoriteItems.push(newItem);
         }),
       removeItem: (_id) =>
         set((state) => {
-          state.items = state.items.filter((item) => item._id !== _id);
+          state.favoriteItems = state.favoriteItems.filter(
+            (item) => item._id !== _id,
+          );
         }),
       clear: () => set({ ...initialState }),
     })),

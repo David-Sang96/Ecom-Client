@@ -21,6 +21,7 @@ const ProductsPage = () => {
         <DialogContent
           className="max-w-2xl max-sm:max-w-sm"
           onMouseLeave={() => setSliderOpen(false)}
+          showCloseButton={false}
         >
           <ImageSlider productImages={sliderImages} />
         </DialogContent>

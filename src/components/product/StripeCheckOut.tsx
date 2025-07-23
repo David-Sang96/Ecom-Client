@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 const StripeCheckOut = () => {
   const products = useCartStore((store) => store.items);
   const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+  console.log(products);
 
   const handleCheckout = async () => {
     const stripe = await loadStripe(stripePublicKey);

@@ -7,6 +7,7 @@ import { Heart } from "lucide-react";
 import { RiHeartFill } from "react-icons/ri";
 import { Link } from "react-router";
 import { toast } from "sonner";
+import ProductImageLoader from "../ProductImageLoader";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 
@@ -16,13 +17,19 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const addOrRemove = useFavoriteStore((store) => store.addOrRemove);
-  const item = useFavoriteStore((store) => store.items);
+  const favoriteItems = useFavoriteStore((store) => store.favoriteItems);
 
-  const isFav = item.find((item) => item._id === product._id);
+  const isFav = favoriteItems.find((item) => item._id === product._id);
 
   const handleAdd = () => {
-    if (!isFav) toast.success("Added to favorite");
-    else toast.error("Remove from favorite");
+    if (!isFav)
+      toast.success("Added to favorite", {
+        description: `${product.name} has been added to your favorite`,
+      });
+    else
+      toast.error("Remove from favorite", {
+        description: `${product.name} has been removed from your favorite`,
+      });
 
     addOrRemove({
       _id: product._id,
@@ -38,17 +45,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Card className="pt-0 pb-3">
       <div className="group relative overflow-hidden">
-        <img
-          src={product.images[0].url}
-          alt="shirt"
-          loading="lazy"
-          decoding="async"
-          className="aspect-square size-full rounded-tl-md rounded-tr-md object-cover transition duration-300 ease-in-out group-hover:scale-105"
-        />
-
+        <ProductImageLoader src={product.images[0].url} alt={product.name} />
         <div
           className={cn(
-            "absolute top-1 right-2 rounded-md",
+            "absolute top-1 right-2 rounded-full",
             isFav
               ? "hover:bg-black/70"
               : "bg-black/70 opacity-0 transition-opacity group-hover:opacity-100",
@@ -56,7 +56,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         >
           <Button
             variant={isFav ? "ghost" : "outline"}
-            className="cursor-pointer"
+            className="cursor-pointer rounded-full"
             onClick={handleAdd}
           >
             {isFav ? (

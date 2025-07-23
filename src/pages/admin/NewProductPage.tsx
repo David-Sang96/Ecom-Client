@@ -52,18 +52,22 @@ const NewProductPage = () => {
       countInStock: 0,
       description: "",
       images: [],
+      subCategories,
     },
   });
 
   const addSubCategory = () => {
     const value = inputRef.current?.value.trim();
     if (value) {
-      const capitalize = value.slice(0, 1).toUpperCase() + value.slice(1);
-      if (subCategories.includes(capitalize)) {
+      const lower = value.toLocaleLowerCase();
+      if (subCategories.includes(lower)) {
         inputRef.current!.value = "";
         return;
       }
-      setSubCategories((cat) => [...cat, capitalize]);
+      const updated = [...subCategories, lower];
+      setSubCategories(updated);
+      form.setValue("subCategories", updated);
+      form.trigger("subCategories"); //  re-validate
       inputRef.current!.value = "";
     }
   };
@@ -100,8 +104,9 @@ const NewProductPage = () => {
     formData.append("description", values.description);
     formData.append("categories", values.categories);
     formData.append("countInStock", values.countInStock.toString());
-
-    subCategories.forEach((cat) => formData.append("subCategories", cat));
+    values.subCategories.forEach((cat) =>
+      formData.append("subCategories", cat),
+    );
     values.images.forEach((file) => formData.append("images", file));
     createProductMutation.mutate(formData);
   };
@@ -155,7 +160,7 @@ const NewProductPage = () => {
                       name="price"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <FormLabel>Price</FormLabel>
+                          <FormLabel>Price*</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="0.00"
@@ -177,7 +182,7 @@ const NewProductPage = () => {
                       render={({ field }) => (
                         <FormItem className="w-full">
                           <FormLabel className="pb-1.5">
-                            Stock Quantity
+                            Stock Quantity*
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -199,7 +204,7 @@ const NewProductPage = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="pb-1.5">
-                          Select one category
+                          Select one category*
                         </FormLabel>
                         <FormControl>
                           <Select
@@ -222,29 +227,39 @@ const NewProductPage = () => {
                       </FormItem>
                     )}
                   />
-                  <FormItem className="w-full">
-                    <FormLabel className="pb-1.5">Sub Categories</FormLabel>
-                    <FormControl>
-                      <Input
-                        ref={inputRef}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            addSubCategory();
-                          }
-                        }}
-                      />
-                    </FormControl>
-                    {subCategories.length === 0 && (
+                  <FormField
+                    control={form.control}
+                    name="subCategories"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel className="pb-1.5">
+                          Sub Categories*
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            ref={inputRef}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault();
+                                addSubCategory();
+                              }
+                            }}
+                            placeholder="Select sub category"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                        {/* {subCategories.length === 0 && (
                       <div className="text-sm text-red-400">
                         Sub categories is required
                       </div>
+                    )} */}
+                      </FormItem>
                     )}
-                  </FormItem>
+                  />
 
                   <div className="flex flex-wrap gap-1">
                     {subCategories.map((item) => (
-                      <Badge key={item} variant={"secondary"}>
+                      <Badge key={item}>
                         {item}
                         <button
                           onClick={() =>
@@ -252,7 +267,7 @@ const NewProductPage = () => {
                               prev.filter((cat) => cat !== item),
                             )
                           }
-                          className="ml-1 cursor-pointer text-xs hover:text-red-500"
+                          className="ml-1 cursor-pointer text-xs hover:text-black"
                         >
                           ×
                         </button>

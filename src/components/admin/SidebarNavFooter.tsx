@@ -30,6 +30,12 @@ export function SidebarNavFooter() {
   const { isMobile } = useSidebar();
   const user = useAuthStore();
 
+  const firstLetters = user.name
+    ?.split(" ")
+    .slice(0, 3)
+    .map((item) => item.slice(0, 1).toUpperCase())
+    .join("");
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -41,7 +47,9 @@ export function SidebarNavFooter() {
             >
               <Avatar className="size-9 rounded-full border border-green-200">
                 <AvatarImage src={user.image?.url} alt={user.name!} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">
+                  {firstLetters}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>

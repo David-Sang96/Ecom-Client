@@ -167,7 +167,7 @@ const VoucherInvoicePage = () => {
                       </div>
                     </TableCell>
                     <TableCell>{formatPrice(item.price)}</TableCell>
-                    <TableCell>{item.sizes.join(", ")}</TableCell>
+                    <TableCell>{item.subCategories.join(", ")}</TableCell>
                     <TableCell className="text-center">
                       {item.quantity}
                     </TableCell>

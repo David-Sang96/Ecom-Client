@@ -16,6 +16,8 @@ export const queryClient = new QueryClient({
 //   return response.data;
 // };
 
+/* ---------------------------  USER PRODUCT ---------------------------------------------- */
+
 export const productQuery = (q?: string) => ({
   queryKey: ["products", q],
   queryFn: async () => {
@@ -39,7 +41,7 @@ const fetchInfiniteProducts = async ({
 };
 
 export const infiniteProductQuery = (categories: string | null = null) => ({
-  queryKey: ["products", "infinite", categories ?? undefined],
+  queryKey: ["products", "infinite", categories],
   queryFn: ({ pageParam }: { pageParam?: string | null }) =>
     fetchInfiniteProducts({ categories, pageParam }),
   placeholderData: keepPreviousData,
@@ -59,6 +61,26 @@ export const oneProductQuery = (productId: string) => ({
   },
 });
 
+/* ----------------------------- USER ORDER ------------------------------------------------------- */
+
+export const allUserOrdersQuery = () => ({
+  queryKey: ["orders", "all"],
+  queryFn: async () => {
+    const res = await fetchApi.get("/order/all");
+    return res.data;
+  },
+});
+
+export const oneOrderQuery = (orderId: string) => ({
+  queryKey: ["orders", "details", orderId],
+  queryFn: async () => {
+    const res = await fetchApi.get(`/order/${orderId}`);
+    return res.data;
+  },
+});
+
+/* ---------------------------  ADMIN PRODUCT ---------------------------------------------- */
+
 export const allProductsQuery = () => ({
   queryKey: ["products", "all"],
   queryFn: async () => {
@@ -75,7 +97,7 @@ export const productSaleQuery = () => ({
   },
 });
 
-/* ------------------------------------------------------------------------------------ */
+/* ---------------------------  ADMIN ORDER ---------------------------------------------- */
 
 export const lastSevendaysOrdersQuery = () => ({
   queryKey: ["orders", "seven"],
@@ -104,7 +126,7 @@ export const adminOneOrderQuery = (orderId: string) => ({
   },
 });
 
-/* ------------------------------------------------------------------------------------ */
+/* --------------------------------ADMIN USER ------------------------------------------------- */
 
 export const allUsersQuery = () => ({
   queryKey: ["users", "all"],

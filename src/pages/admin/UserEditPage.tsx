@@ -108,7 +108,6 @@ const UserEditPage = () => {
       });
     },
     onError: (error) => {
-      console.log(error);
       if (error instanceof AxiosError) {
         const errorMessage =
           error.response?.data.message || "something went wrong";
@@ -171,6 +170,7 @@ const UserEditPage = () => {
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
+                        disabled={isCurrentLoginUser}
                       >
                         <FormControl className="w-full">
                           <SelectTrigger>

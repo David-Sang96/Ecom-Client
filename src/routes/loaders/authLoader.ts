@@ -66,7 +66,8 @@ export const newPasswordLoader = () => {
 
 export const authenticationLoader = () => {
   const auth = useAuthStore.getState();
-  if (auth.id && auth.email && auth.name) {
+  console.log(auth);
+  if (auth) {
     return redirect("/");
   }
   return null;

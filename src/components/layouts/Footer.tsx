@@ -53,7 +53,7 @@ const Footer = () => {
             <h3>Company</h3>
             {company.map((item, idx) => (
               <ul key={idx}>
-                <li className="text-muted-foreground hover:text-foreground cursor-pointer text-sm">
+                <li className="text-muted-foreground hover:text-primary cursor-pointer text-sm">
                   <Link to={item.to}> {item.name}</Link>
                 </li>
               </ul>
@@ -63,7 +63,7 @@ const Footer = () => {
             <h3>Quick Link</h3>
             {link.map((item, idx) => (
               <ul key={idx}>
-                <li className="text-muted-foreground hover:text-foreground cursor-pointer text-sm">
+                <li className="text-muted-foreground hover:text-primary cursor-pointer text-sm">
                   {item}
                 </li>
               </ul>
@@ -73,7 +73,7 @@ const Footer = () => {
             <h3>Legal</h3>
             {legal.map((item, idx) => (
               <ul key={idx}>
-                <li className="text-muted-foreground hover:text-foreground cursor-pointer text-sm">
+                <li className="text-muted-foreground hover:text-primary cursor-pointer text-sm">
                   {item}
                 </li>
               </ul>

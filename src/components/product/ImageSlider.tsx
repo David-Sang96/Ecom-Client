@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ProductImageLoader from "../ProductImageLoader";
 import {
   Carousel,
   CarouselApi,
@@ -39,12 +40,9 @@ const ImageSlider = ({ imageUrls, productImages }: ImageSliderProps) => {
         <CarouselContent>
           {images.map((url, index) => (
             <CarouselItem key={index}>
-              <img
+              <ProductImageLoader
                 src={url}
                 alt={`product image ${index + 1}`}
-                className="mx-auto size-full rounded-md object-cover sm:size-[600px]"
-                decoding="async"
-                loading="lazy"
               />
             </CarouselItem>
           ))}

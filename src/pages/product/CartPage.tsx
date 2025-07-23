@@ -26,6 +26,8 @@ const CartPage = () => {
   const removeItem = useCartStore((store) => store.removeItem);
   const navigate = useNavigate();
 
+  console.log(cartItem);
+
   useEffect(() => {
     if (cartItem.length === 0) navigate("/products");
   }, [cartItem.length, navigate]);
@@ -88,7 +90,7 @@ const CartPage = () => {
                   </TableCell>
                   <TableCell className="text-right">{item.price}</TableCell>
                   <TableCell className="text-right">
-                    {item.sizes.join(", ").toUpperCase()}
+                    {item.subCategories.join(", ")}
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end">

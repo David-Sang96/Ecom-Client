@@ -1,6 +1,7 @@
 import { infiniteProductQuery, queryClient } from "@/api/query";
 import PageHeader from "@/components/PageHeader";
 import ProductCard from "@/components/product/ProductCard";
+import ProductSkeleton from "@/components/skeletons/productsSkeleton";
 import { Input } from "@/components/ui/input";
 import { useScrollRestore } from "@/hooks/useScrollRestore";
 import { useFilterStore } from "@/store/filterStore";
@@ -88,7 +89,7 @@ const ProductsPage = () => {
   }, []);
 
   return status === "pending" ? (
-    <p>Loading...</p>
+    <ProductSkeleton />
   ) : status === "error" ? (
     <p>Error: {error.message}</p>
   ) : (

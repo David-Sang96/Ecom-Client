@@ -22,9 +22,8 @@ const QuickActions = () => {
             <Link to={item.to} key={idx} className="w-full">
               <div
                 className={cn(
-                  "broder-2 hover:bg-muted flex flex-col items-center justify-center gap-4 rounded-md border p-5",
-                  idx === 0 &&
-                    "bg-black text-white hover:bg-black dark:bg-white dark:text-black",
+                  "broder-2 hover:bg-primary/70 flex flex-col items-center justify-center gap-4 rounded-md border p-5",
+                  idx === 0 && "bg-primary hover:bg-primary/80 text-white",
                 )}
               >
                 <item.icon />

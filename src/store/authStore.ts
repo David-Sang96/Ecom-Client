@@ -22,7 +22,7 @@ export type UserInfo = {
   image: { url: string; public_id: string } | null;
   role: Role | null;
   isEmailVerified: boolean | null;
-  accountStatus: AccountStatus | null;
+  accStatus: AccountStatus | null;
   updatedAt: Date | null;
   status: Status;
   isBanned?: boolean;
@@ -42,7 +42,7 @@ const initialState: UserInfo = {
   email: null,
   image: null,
   role: null,
-  accountStatus: null,
+  accStatus: null,
   isEmailVerified: null,
   updatedAt: null,
   status: Status.none,
@@ -60,7 +60,7 @@ const useAuthStore = create<UserInfo & Actions>()(
         email,
         role,
         status,
-        accountStatus,
+        accStatus,
         image,
         isEmailVerified,
         updatedAt,
@@ -73,7 +73,7 @@ const useAuthStore = create<UserInfo & Actions>()(
           state.email = email;
           state.image = image;
           state.role = role;
-          state.accountStatus = accountStatus;
+          state.accStatus = accStatus;
           state.isEmailVerified = isEmailVerified;
           state.updatedAt = updatedAt;
           state.status = status;

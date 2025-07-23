@@ -97,7 +97,7 @@ const Dropzone = ({ className, existingImagesCount }: DropzonrProps) => {
     <div className={className}>
       <Card>
         <CardHeader>
-          <CardTitle>Upload Files</CardTitle>
+          <CardTitle>Upload Files*</CardTitle>
           <CardDescription>You can only upload up to 5 images</CardDescription>
         </CardHeader>
         <CardContent>

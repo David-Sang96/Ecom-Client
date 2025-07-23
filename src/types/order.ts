@@ -2,7 +2,7 @@ export type OrderProductType = {
   productId: string;
   name: string;
   description: string;
-  categories: [string];
+  categories: string[];
   price: number;
   quantity: number;
   images: { url: string; public_id: string }[];
@@ -29,18 +29,21 @@ export type OrderType = {
   status: OrderStatus;
 };
 
+export type OrderItemType = {
+  _id?: string;
+  productId: string;
+  name: string;
+  description: string;
+  categories: string[];
+  price: number;
+  quantity: number;
+  images: string[];
+  subCategories: string[];
+};
+
 export type OrderDetailType = {
   _id: string;
-  items: {
-    productId: string;
-    name: string;
-    description: string;
-    categories: [string];
-    price: number;
-    quantity: number;
-    images: [string];
-    sizes: [string];
-  }[];
+  items: OrderItemType[];
   totalPrice: number;
   stripeSessionId: string;
   paymentStatus: PaymentStatus;

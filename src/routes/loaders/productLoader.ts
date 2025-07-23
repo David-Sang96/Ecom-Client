@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import fetchApi from "@/api";
 import {
+  allUserOrdersQuery,
   infiniteProductQuery,
+  oneOrderQuery,
   oneProductQuery,
   queryClient,
 } from "@/api/query";
@@ -10,7 +12,11 @@ import { AxiosError } from "axios";
 import { LoaderFunctionArgs, redirect } from "react-router";
 import { authCheckLoader } from "./authLoader";
 
-export const productsLoader = async () => {
+export const productsLoader = async ({ request }: { request: Request }) => {
+  // const url = new URL(request.url);
+  // const raw = url.searchParams.get("category");
+  // const categories = raw ? decodeURIComponent(raw) : null;
+
   try {
     await queryClient.ensureInfiniteQueryData(infiniteProductQuery());
     return null;
@@ -72,6 +78,39 @@ export const successLoader = async (args: LoaderFunctionArgs) => {
       setAccess(Access.success);
       return { data: response.data };
     }
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return { err: error.response?.data.message };
+    }
+  }
+};
+
+export const orderLoader = async (args: LoaderFunctionArgs) => {
+  const authResult = await authCheckLoader(args);
+  if (authResult) return authResult;
+
+  try {
+    const response = await queryClient.ensureQueryData(allUserOrdersQuery());
+    return response;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return { err: error.response?.data.message };
+    }
+  }
+};
+
+export const orderDetailLoader = async (args: LoaderFunctionArgs) => {
+  const authResult = await authCheckLoader(args);
+  if (authResult) return authResult;
+
+  const orderId = args.params.orderId;
+  if (!orderId) {
+    throw new Error("No product ID provided");
+  }
+
+  try {
+    await queryClient.ensureQueryData(oneOrderQuery(orderId));
+    return { orderId };
   } catch (error) {
     if (error instanceof AxiosError) {
       return { err: error.response?.data.message };

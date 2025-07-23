@@ -64,7 +64,7 @@ export function DropDownNav() {
               </DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
-          <Link to={"/products/order"}>
+          <Link to={"/orders"}>
             <DropdownMenuItem className="cursor-pointer">
               Order
               <DropdownMenuShortcut>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
@@ -62,6 +63,7 @@ export function Chart() {
   const chartData = last7Days.map((date) => {
     const obj = { date };
     categories.forEach((cat) => {
+      // @ts-expect-error
       obj[cat] = 0;
     });
     return obj;
@@ -71,6 +73,7 @@ export function Chart() {
     const { category, date } = sale._id;
     const dayData = chartData.find((d) => d.date === date);
     if (dayData && categories.includes(category)) {
+      // @ts-expect-error
       dayData[category] = sale.totalSold;
     }
   });

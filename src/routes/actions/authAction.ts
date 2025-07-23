@@ -40,7 +40,7 @@ export const loginAction = async ({ request }: ActionFunctionArgs) => {
       name: response.data.user.name,
       email: response.data.user.email,
       image: response.data.user.image,
-      accountStatus: response.data.user.accStatus,
+      accStatus: response.data.user.accStatus,
       isEmailVerified: response.data.user.isEmailVerified,
       updatedAt: response.data.user.updatedAt,
       role: response.data.user.role,

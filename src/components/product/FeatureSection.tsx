@@ -12,7 +12,7 @@ const FeatureSection = () => {
 
   // if (isLoading) return <p className="text-center">Loading...</p>;
   // if (isError) return <p className="text-center">{error.message}</p>;
-  const { data } = useSuspenseQuery(productQuery("?limit=3"));
+  const { data } = useSuspenseQuery(productQuery("?limit=4"));
 
   return (
     <section className="py-12 md:px-12 md:py-24">
@@ -26,7 +26,7 @@ const FeatureSection = () => {
           </p>
         </div>
         <div className="grid gap-2 sm:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 xl:gap-6">
-          {data.products.slice(0, 3).map((product: ProductType) => (
+          {data.products.map((product: ProductType) => (
             <ProductCard product={product} key={product._id} />
           ))}
         </div>
