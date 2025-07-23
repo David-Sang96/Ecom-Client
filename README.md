@@ -1,54 +1,61 @@
-# React + TypeScript + Vite
+# 🛒 E-Commerce Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend for a full-stack e-commerce app built with **React**, **TypeScript**, **Zustand**, and **Tailwind CSS**. It supports user and admin functionality, product browsing, cart, orders, and Stripe payments.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+### 👤 User
+- Register, login, logout (with Zod validation)
+- Forgot and reset password flows
+- View and update profile
+- Theme toggle (dark/light)
+- Responsive navbar
+- Browse products with filters and search
+- Product details page
+- Add/remove from cart
+- Favorite products
+- Stripe payment integration
+- View past orders
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🛒 Cart
+- Cart page with notification badge
+- Cart stored in Zustand state
+- Checkout flow with Stripe
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 🧑‍💻 Admin Panel
+- Admin dashboard with widgets and charts
+- Product management (create, update, delete)
+  - Image upload with React Dropzone
+  - Category multi-select
+- Order management (view, update status)
+- User management
+- Settings page
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 📄 Pages
+- Home
+- About
+- Contact
+- Product Details
+- Cart
+- Favorites
+- Orders
+- Profile
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🧰 Tech Stack
+
+- **React + TypeScript**
+- **Tailwind CSS**
+- **Zustand** (state management)
+- **React Hook Form + Zod** (form validation)
+- **React Router**
+- **React Query (TanStack)** (data fetching)
+- **Stripe** (payments)
+- **Cloudinary** (image hosting)
+
+---
+
+
