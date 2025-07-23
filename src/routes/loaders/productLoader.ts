@@ -12,7 +12,7 @@ import { AxiosError } from "axios";
 import { LoaderFunctionArgs, redirect } from "react-router";
 import { authCheckLoader } from "./authLoader";
 
-export const productsLoader = async ({ request }: { request: Request }) => {
+export const productsLoader = async () => {
   // const url = new URL(request.url);
   // const raw = url.searchParams.get("category");
   // const categories = raw ? decodeURIComponent(raw) : null;

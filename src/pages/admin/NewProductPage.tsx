@@ -230,7 +230,7 @@ const NewProductPage = () => {
                   <FormField
                     control={form.control}
                     name="subCategories"
-                    render={({ field }) => (
+                    render={() => (
                       <FormItem className="w-full">
                         <FormLabel className="pb-1.5">
                           Sub Categories*

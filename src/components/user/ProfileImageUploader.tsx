@@ -90,7 +90,7 @@ const ProfileImageUploader = ({ setOpen }: ProfileImageUploaderProps) => {
           id: data.updatedUser._id,
           email: data.updatedUser.email,
           name: data.updatedUser.name,
-          accountStatus: data.updatedUser.status,
+          accStatus: data.updatedUser.status,
           image: {
             url: data.updatedUser.image.url,
             public_id: data.updatedUser.image.public_id,

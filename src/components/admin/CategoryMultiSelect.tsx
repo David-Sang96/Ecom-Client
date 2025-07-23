@@ -10,16 +10,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-type Props = {
-  field: {
-    value: string[];
-    onChange: (value: string[]) => void;
-  };
-  fieldState?: {
-    error?: { message?: string };
-  };
-};
-
 // eslint-disable-next-line react-refresh/only-export-components
 export const categories = ["Clothing", "Books", "Electronics", "Kitchen"];
 

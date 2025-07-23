@@ -35,6 +35,8 @@ export const loginAction = async ({ request }: ActionFunctionArgs) => {
       return response.data || "Login failed";
     }
 
+    console.log(response);
+
     const userInfo = {
       id: response.data.user.id,
       name: response.data.user.name,
