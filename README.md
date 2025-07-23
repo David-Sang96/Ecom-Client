@@ -13,6 +13,7 @@ This is the frontend for a full-stack e-commerce app built with **React**, **Typ
 - Theme toggle (dark/light)
 - Responsive navbar
 - Browse products with filters and search
+- Infinite scrolling
 - Product details page
 - Add/remove from cart
 - Favorite products
